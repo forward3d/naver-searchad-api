@@ -1,4 +1,4 @@
-require "naver/searchad/api/version"
+require 'naver/searchad/api/version'
 require 'logger'
 
 module Naver

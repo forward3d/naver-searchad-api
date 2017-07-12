@@ -124,7 +124,7 @@ module Naver
                 err = e
               end
             elsif err.is_a?(HTTPClient::TimeoutError) || err.is_a?(SocketError)
-              err = Naver::Searchad::Api::TimeoutError.new(err)
+              err = Naver::Searchad::Api::TransmissionError.new(err)
             end
             if block_given?
               block.call(nil, err)

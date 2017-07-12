@@ -41,7 +41,7 @@ module Naver
 
       class UnknownError < Error; end
 
-      class TimeoutError < Error; end
+      class TransmissionError < Error; end
     end
   end
 end
