@@ -1,4 +1,5 @@
-require "naver/searchad/api/version"
+require 'naver/searchad/api/version'
+require 'logger'
 
 module Naver
   module Searchad
@@ -16,7 +17,7 @@ module Naver
       private
 
       def self.default_logger
-        logger = Logger.new($stdout)
+        logger = Logger.new(STDOUT)
         logger.level = Logger::WARN
         logger
       end
