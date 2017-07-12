@@ -137,7 +137,7 @@ describe Naver::Searchad::Api::Core::HttpCommand do
           }
         end
 
-        it { expect{ execute }.to raise_error(Naver::Searchad::Api::TimeoutError) }
+        it { expect{ execute }.to raise_error(Naver::Searchad::Api::TransmissionError) }
       end
     end
 
