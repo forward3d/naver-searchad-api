@@ -84,6 +84,19 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         end
       end
 
+      context 'with 429 too many requests' do
+        let(:status) { 429 }
+
+        context 'with block given' do
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::RateLimitError) }
+        end
+
+        context 'without block' do
+          it { expect{ execute }.to raise_error(Naver::Searchad::Api::RateLimitError) }
+        end
+      end
+
+
       context 'with 500 internal server error' do
         let(:status) { 500 }
 

@@ -12,8 +12,8 @@ module Naver
           include Logging
 
           attr_reader :url
-          attr_reader :body
           attr_reader :method
+          attr_accessor :body
           attr_accessor :header
           attr_accessor :options
           attr_accessor :query
@@ -53,8 +53,6 @@ module Naver
             error(e, &block)
           end
 
-          private
-
           def prepare!
             normalize_unicode = true
             if options
@@ -85,6 +83,9 @@ module Naver
             when 401
               raise Naver::Searchad::Api::AuthorizationError.new(
                 'Unauthorized', status_code: status, header: header, body: body)
+            when 429
+              raise Naver::Searchad::Api::RateLimitError.new(
+                'Rate limit exceeded', status_code: status, header: header, body: body)
             when 400, 402...500
               raise Naver::Searchad::Api::RequestError.new(
                 'Invalid request', status_code: status, header: header, body: body)
@@ -101,6 +102,8 @@ module Naver
           def decode_response_body(content_type, body)
             body
           end
+
+          private
 
           def apply_request_options(req_header)
             options.authorization.apply(req_header) if options.authorization.respond_to?(:apply)

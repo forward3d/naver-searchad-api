@@ -35,6 +35,8 @@ module Naver
 
       class RequestError < Error; end
 
+      class RateLimitError < Error; end
+
       class ServerError < Error; end
 
       class UnknownError < Error; end
