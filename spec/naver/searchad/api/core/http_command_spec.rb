@@ -96,7 +96,6 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         end
       end
 
-
       context 'with 500 internal server error' do
         let(:status) { 500 }
 
