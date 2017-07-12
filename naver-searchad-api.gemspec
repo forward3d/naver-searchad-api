@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Min Kim']
   spec.email         = %w[developers@forward3d.com min.kim@forward3d.com]
 
-  spec.summary       = %q{Naver Searchad API ruby client}
-  spec.description   = %q{Naver Searchad API ruby client}
+  spec.summary       = %q(Naver Searchad API ruby client)
+  spec.description   = %q(Naver Searchad API ruby client)
   spec.homepage      = 'http://forward3d.com'
   spec.license       = 'MIT'
 
