@@ -18,8 +18,7 @@ module Naver
 
       def self.default_logger
         logger = Logger.new(STDOUT)
-        #logger.level = Logger::WARN
-        logger.level = Logger::DEBUG
+        logger.level = Logger::WARN
         logger
       end
 

@@ -1,6 +1,7 @@
 require 'addressable/uri'
 require 'addressable/template'
 require 'naver/searchad/api/errors'
+require 'naver/searchad/api/options'
 require 'naver/searchad/api/core/logging'
 
 module Naver
@@ -10,16 +11,16 @@ module Naver
         class HttpCommand
           include Logging
 
-          attr_reader :options
           attr_reader :url
-          attr_reader :header
           attr_reader :body
           attr_reader :method
-          attr_reader :query
-          attr_reader :params
+          attr_accessor :header
+          attr_accessor :options
+          attr_accessor :query
+          attr_accessor :params
 
           def initialize(method, url, body: nil)
-            @options = nil
+            @options = RequestOptions.default.dup
             @url = url.is_a?(String) ? Addressable::Template.new(url) : url
             @method = method
             @header = {}
@@ -32,7 +33,7 @@ module Naver
             prepare!
 
             logger.debug("Executing HTTP #{method} #{url}")
-            request_header = header
+            request_header = {}
             apply_request_options(request_header)
 
             http_res = client.request(method.to_s.upcase,
@@ -57,13 +58,16 @@ module Naver
           def prepare!
             normalize_unicode = true
             if options
-              header.update(options.header) if options.header
+              @header.merge!(options.header) if options.header
               normalize_unicode = options.normalize_unicode
             end
-            @url = url.expand(params, nil, normalize_unicode) if url.is_a?(Addressable::Template)
-            @url.query_values = query.merge(url.query_values || {})
 
-            @body = '' unless self.body
+            if url.is_a?(Addressable::Template)
+              @url = url.expand(params, nil, normalize_unicode)
+              @url.query_values = query.merge(url.query_values || {})
+            end
+
+            @body = '' unless body
           end
 
           def process_response(status, header, body)
@@ -99,6 +103,8 @@ module Naver
           end
 
           def apply_request_options(req_header)
+            options.authorization.apply(req_header) if options.authorization.respond_to?(:apply)
+            req_header.merge!(header)
           end
 
           def success(result, &block)

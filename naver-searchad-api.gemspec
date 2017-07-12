@@ -6,7 +6,7 @@ require 'naver/searchad/api/version'
 Gem::Specification.new do |spec|
   spec.name          = 'naver-searchad-api'
   spec.version       = Naver::Searchad::Api::VERSION
-  spec.authors       = %w[Min Kim]
+  spec.authors       = ['Min Kim']
   spec.email         = %w[developers@forward3d.com min.kim@forward3d.com]
 
   spec.summary       = %q{Naver Searchad API ruby client}
@@ -38,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov', '~> 0.14'
+  spec.add_development_dependency 'webmock', '~> 2.1'
 end

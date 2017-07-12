@@ -1,6 +1,7 @@
 require 'addressable/uri'
 require 'addressable/template'
 require 'httpclient'
+require 'naver/searchad/api/options'
 require 'naver/searchad/api/version'
 require 'naver/searchad/api/core/api_command'
 require 'naver/searchad/api/core/logging'
@@ -20,17 +21,8 @@ module Naver
           def initialize(url, base_path)
             @url = url
             @base_path = base_path
-            @request_options = Struct.new(
-              :authorization,
-              :header
-            )
-            @client_options = Struct.new(
-              :proxy_url,
-              :open_timeout_sec,
-              :read_timeout_sec,
-              :send_timeout_sec,
-              :log_http_requests
-            )
+            @request_options = RequestOptions.default.dup
+            @client_options = ClientOptions.default.dup
           end
 
           def authorization=(authorization)
@@ -39,6 +31,10 @@ module Naver
 
           def authorization
             request_options.authorization
+          end
+
+          def client
+            @client ||= new_client
           end
 
           protected
@@ -59,10 +55,6 @@ module Naver
 
           private
 
-          def client
-            @client ||= new_client
-          end
-
           def new_client
             HTTPClient.new.tap do |client|
               client.transparent_gzip_decompression = true
@@ -77,8 +69,8 @@ module Naver
           end
 
           def user_agent
-            "#{client_options.application_name}/#{client_options.application_version} "
-            "google-api-ruby-client/#{Naver::Searchad::Api::VERSION} "
+            "#{client_options.application_name}/#{client_options.application_version} "\
+            "naver-searchad-api/#{Naver::Searchad::Api::VERSION} "\
             "#{Naver::Searchad::Api::OS_VERSION} (gzip)"
           end
         end
