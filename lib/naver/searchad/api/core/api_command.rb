@@ -6,6 +6,9 @@ module Naver
       module Core
         class ApiCommand < HttpCommand
           JSON_CONTENT_TYPE = 'application/json'.freeze
+          ERROR_CODE_MAPPING = {
+            '1018' => Searchad::Api::Error::NotEnoughPermissionError
+          }
 
           attr_accessor :request_object
 
@@ -24,7 +27,27 @@ module Naver
           end
 
           def check_status(status, header = nil, body = nil, message = nil)
+            case status
+            when 400, 402...500
+              code, message = parse_error(body)
+
+              raise ERROR_CODE_MAPPING[code].new(
+                message,
+                status_code: status,
+                header: header,
+                body: body
+              ) if ERROR_CODE_MAPPING.key?(code)
+            end
+
             super(status, header, body, message)
+          end
+
+          private
+
+          def parse_error(body)
+            [obj['code'], obj['title']]
+          rescue
+            [nil, nil]
           end
         end
       end

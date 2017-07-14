@@ -42,6 +42,8 @@ module Naver
       class UnknownError < Error; end
 
       class TransmissionError < Error; end
+
+      class NotEnoughPermissionError < Error; end
     end
   end
 end

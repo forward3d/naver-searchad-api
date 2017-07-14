@@ -78,24 +78,30 @@ module Naver
             when 200...300
               nil
             when 301, 302, 303, 307
+              message ||= "Redirect to #{header['Location']}"
               raise Naver::Searchad::Api::RedirectError.new(
-                "Redirect to #{header['Location']}", status_code: status, header: header, body: body)
+                message, status_code: status, header: header, body: body)
             when 401
+              message ||= 'Unauthorized'
               raise Naver::Searchad::Api::AuthorizationError.new(
-                'Unauthorized', status_code: status, header: header, body: body)
+                message, status_code: status, header: header, body: body)
             when 429
+              message ||= 'Rate limit exceeded'
               raise Naver::Searchad::Api::RateLimitError.new(
-                'Rate limit exceeded', status_code: status, header: header, body: body)
+                message, status_code: status, header: header, body: body)
             when 400, 402...500
+              message ||= 'Invalid request'
               raise Naver::Searchad::Api::RequestError.new(
-                'Invalid request', status_code: status, header: header, body: body)
+                message, status_code: status, header: header, body: body)
             when 500...600
+              message ||= 'Server error'
               raise Naver::Searchad::Api::ServerError.new(
-                'Server error', status_code: status, header: header, body: body)
+                message, status_code: status, header: header, body: body)
             else
               logger.warn("Encountered unexpected status code #{status}")
+              message ||= 'Unknown error'
               raise Naver::Searchad::Api::UnknownError.new(
-                'Unknown error', status_code: status, header: header, body: body)
+                message, status_code: status, header: header, body: body)
             end
           end
 

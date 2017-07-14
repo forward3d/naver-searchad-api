@@ -59,6 +59,7 @@ describe Naver::Searchad::Api::Core::ApiCommand do
   end
 
   describe 'check_status' do
+
   end
 
   describe '.execute' do
