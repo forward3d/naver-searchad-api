@@ -6,6 +6,10 @@ module Naver
       module Core
         class ApiCommand < HttpCommand
           JSON_CONTENT_TYPE = 'application/json'.freeze
+          #
+          # More error codes can be found below url
+          # https://github.com/naver/searchad-apidoc/blob/master/NaverSA_API_Error_Code_MAP.md
+          #
           ERROR_CODE_MAPPING = {
             '1018' => Naver::Searchad::Api::NotEnoughPermissionError
           }
