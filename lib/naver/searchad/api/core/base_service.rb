@@ -1,10 +1,10 @@
 require 'addressable/uri'
 require 'addressable/template'
 require 'httpclient'
-require 'naver/searchad/api/options'
-require 'naver/searchad/api/version'
-require 'naver/searchad/api/core/api_command'
-require 'naver/searchad/api/core/logging'
+require_relative '../options'
+require_relative '../version'
+require_relative 'api_command'
+require_relative 'logging'
 
 module Naver
   module Searchad
