@@ -1,4 +1,4 @@
-require 'naver/searchad/api/core/http_command'
+require_relative 'http_command'
 
 module Naver
   module Searchad
@@ -18,7 +18,7 @@ module Naver
           end
 
           def decode_response_body(content_type, body)
-            return super if content_type.nil?
+            return super unless content_type
             return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
             JSON.parse(body)
           end
