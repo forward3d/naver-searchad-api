@@ -7,7 +7,7 @@ module Naver
         class ApiCommand < HttpCommand
           JSON_CONTENT_TYPE = 'application/json'.freeze
           #
-          # More error codes can be found below url
+          # More error codes can be found at the below url
           # https://github.com/naver/searchad-apidoc/blob/master/NaverSA_API_Error_Code_MAP.md
           #
           ERROR_CODE_MAPPING = {

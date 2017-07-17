@@ -18,7 +18,7 @@ module Naver
         end
       rescue
         RUBY_PLATFORM
-      end
+      end.gsub("\n", '')
     end
   end
 end
