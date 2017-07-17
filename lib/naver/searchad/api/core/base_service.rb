@@ -1,10 +1,10 @@
 require 'addressable/uri'
 require 'addressable/template'
 require 'httpclient'
-require 'naver/searchad/api/options'
-require 'naver/searchad/api/version'
-require 'naver/searchad/api/core/api_command'
-require 'naver/searchad/api/core/logging'
+require_relative '../options'
+require_relative '../version'
+require_relative 'api_command'
+require_relative 'logging'
 
 module Naver
   module Searchad
@@ -13,12 +13,12 @@ module Naver
         class BaseService
           include Logging
 
+          attr_reader :request_options
+          attr_reader :client_options
           attr_reader :url
           attr_reader :base_path
-          attr_accessor :request_options
-          attr_accessor :client_options
 
-          def initialize(url, base_path)
+          def initialize(url, base_path = '')
             @url = url
             @base_path = base_path
             @request_options = RequestOptions.default.dup
@@ -39,8 +39,9 @@ module Naver
 
           protected
 
-          def make_command(method, path, options)
-            command = ApiCommand.new(method, Addressable::Template.new(url + base_path + path))
+          def make_command(method, path, options = {})
+            template = Addressable::Template.new(url + base_path + path)
+            command = ApiCommand.new(method, template)
             command.options = request_options.merge(options)
             apply_command_defaults(command)
             command
@@ -51,6 +52,7 @@ module Naver
           end
 
           def apply_command_defaults(command)
+            # To be implemented by subclasses
           end
 
           private

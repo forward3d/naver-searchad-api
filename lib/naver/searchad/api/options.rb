@@ -27,6 +27,17 @@ module Naver
         def self.default
           @options ||= RequestOptions.new
         end
+
+        def merge(options)
+          return self unless options
+
+          new_options = dup
+          members.each do |opt|
+            opt = opt.to_sym
+            new_options[opt] = options[opt] unless options[opt].nil?
+          end
+          new_options
+        end
       end
 
       ClientOptions.default.log_http_requests = false
