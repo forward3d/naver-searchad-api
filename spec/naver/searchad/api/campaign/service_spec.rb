@@ -9,6 +9,7 @@ describe Naver::Searchad::Api::Campaign::Service do
     context 'when all ok' do
       let(:campaign) { {} }
       it '' do
+        WebMock.disable!
         create_campaign
       end
     end

@@ -49,7 +49,10 @@ module Naver
 
           def parse_error(body)
             obj = JSON.parse(body)
-            [obj['code'].to_s, obj['title']]
+            message = obj['title']
+            message << ", #{obj['detail']}" if obj['detail']
+
+            [obj['code'].to_s, message]
           rescue
             [nil, nil]
           end
