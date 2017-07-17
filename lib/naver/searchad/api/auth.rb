@@ -30,7 +30,7 @@ module Naver
           private
 
           def generate_signature(secret, request_uri, method, timstamp)
-            method = method.to_s if method.is_a?(Symbol)
+            method = method.to_s.upcase if method.is_a?(Symbol)
 
             Base64.encode64(
               OpenSSL::HMAC.digest(
@@ -38,7 +38,7 @@ module Naver
                 secret,
                 "#{timstamp}.#{method}.#{request_uri}"
               )
-            )
+            ).gsub("\n", '')
           end
         end
 

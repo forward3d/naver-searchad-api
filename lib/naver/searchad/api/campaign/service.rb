@@ -11,7 +11,7 @@ module Naver
           end
 
           def create_campaign(campaign, options, &block)
-            command = make_command(:post, 'campaigns/', options)
+            command = make_command(:post, 'campaigns', options)
             %w[campaignTp name customerId].each do |key|
               #raise MissingRequiredAttributeError.new(
               #  "Require #{key} attribute in campaign object") unless campaign.key?(key)

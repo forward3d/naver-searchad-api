@@ -27,12 +27,13 @@ module Naver
           def decode_response_body(content_type, body)
             return super unless content_type
             return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
-            JSON.parse(body)
+            hash = JSON.parse(body)
+            Struct.new(*hash.keys).new(*hash.values)
           end
 
           def check_status(status, header = nil, body = nil, message = nil)
             case status
-            when 400, 402...500
+            when 400, 402..500
               code, message = parse_error(body)
               raise ERROR_CODE_MAPPING[code].new(
                 message,
