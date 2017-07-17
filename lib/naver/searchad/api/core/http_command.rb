@@ -1,8 +1,8 @@
 require 'addressable/uri'
 require 'addressable/template'
-require 'naver/searchad/api/errors'
-require 'naver/searchad/api/options'
-require 'naver/searchad/api/core/logging'
+require_relative '../errors'
+require_relative '../options'
+require_relative 'logging'
 
 module Naver
   module Searchad
