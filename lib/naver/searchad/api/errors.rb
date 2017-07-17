@@ -44,6 +44,8 @@ module Naver
       class TransmissionError < Error; end
 
       class NotEnoughPermissionError < Error; end
+
+      class MissingRequiredAttributeError < RequestError; end
     end
   end
 end

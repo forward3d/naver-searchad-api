@@ -13,6 +13,7 @@ require 'rspec'
 require 'webmock/rspec'
 require "naver/searchad/api"
 require "naver/searchad/api/core/base_service"
+require "naver/searchad/api/campaign/service"
 
 RSpec.configure do |config|
   config.include WebMock::API

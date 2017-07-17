@@ -1,3 +1,5 @@
+require_relative '../core/base_service'
+
 module Naver
   module Searchad
     module Api
@@ -9,7 +11,12 @@ module Naver
           end
 
           def create_campaign(campaign, options, &block)
-            command = make_command(:post, options, 'campaigns/')
+            command = make_command(:post, 'campaigns/', options)
+            %w[campaignTp name customerId].each do |key|
+              raise MissingRequiredAttributeError.new(
+                "Require #{key} attribute in campaign object") unless campaign.key?(key)
+            end
+
             command.request_object = campaign
             execute_command(command, &block)
           end
