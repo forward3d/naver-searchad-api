@@ -112,7 +112,7 @@ module Naver
           private
 
           def apply_request_options(req_header)
-            options.authorization.apply(req_header) if options.authorization.respond_to?(:apply)
+            options.authorization.apply(req_header, url.path, method) if options.authorization.respond_to?(:apply)
             req_header.merge!(header)
           end
 
