@@ -10,6 +10,7 @@ describe Naver::Searchad::Api::Campaign::Service do
       let(:campaign) { {} }
       it '' do
         WebMock.disable!
+        this.authorization = Naver::Searchad::Api::Auth.get_application_default
         create_campaign
       end
     end
