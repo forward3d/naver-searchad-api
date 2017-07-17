@@ -8,19 +8,37 @@ module Naver
           CUSTOMER_HEADER = 'X-Customer'.freeze
           SIGNATURE_HEADER = 'X-Signature'.freeze
 
+          attr_reader :api_key
+          attr_reader :api_secret
+          attr_reader :customer_id
+
           def initialize(api_key, api_secret, customer_id)
+            @api_key = api_key
+            @api_secret = api_secret
+            @customer_id = customer_id
           end
 
-          def apply(hash)
+          def apply(hash, request_uri, method)
+            timestamp = Time.now.to_i
+
             hash[TIMESTAMP_HEADER] = timestamp
             hash[API_KEY_HEADER] = api_key
             hash[CUSTOMER_HEADER] = customer_id
-            hash[SIGNATURE_HEADER] = generate_signature
+            hash[SIGNATURE_HEADER] = generate_signature(api_secret, request_uri, method, timestamp)
           end
 
           private
 
-          def generate_signature
+          def generate_signature(secret, request_uri, method, timstamp)
+            method = method.to_s if method.is_a?(Symbol)
+
+            Base64.encode64(
+              OpenSSL::HMAC.digest(
+                OpenSSL::Digest::SHA256.new,
+                secret,
+                "#{timstamp}.#{method}.#{request_uri}"
+              )
+            )
           end
         end
 
