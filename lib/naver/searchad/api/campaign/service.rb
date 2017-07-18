@@ -10,7 +10,7 @@ module Naver
             super('https://api.naver.com/', 'ncc/')
           end
 
-          def create_campaign(campaign, options = {}, &block)
+          def create_campaign(campaign, options: nil, &block)
             validates_presence_of(%w[campaignTp name customerId], campaign)
 
             command = make_command(:post, 'campaigns', options)
@@ -18,19 +18,19 @@ module Naver
             execute_command(command, &block)
           end
 
-          def list_campaigns_by_ids(campaign_ids, options = {}, &block)
+          def list_campaigns_by_ids(campaign_ids, options: nil, &block)
             command = make_command(:get, 'campaigns/', options)
             command.query['ids'] = campaign_ids.join(',')
             execute_command(command, &block)
           end
 
-          def get_campaign(campaign_id, options = {}, &block)
+          def get_campaign(campaign_id, options: nil, &block)
             command = make_command(:get, 'campaigns/{campaign_id}', options)
             command.params['campaign_id'] = campaign_id
             execute_command(command, &block)
           end
 
-          def update_campaign(campaign, field, options = {}, &block)
+          def update_campaign(campaign, field, options: nil, &block)
             validates_presence_of(%w[nccCampaignId], campaign)
 
             command = make_command(:put, 'campaigns/{campaign_id}', options)
@@ -41,7 +41,7 @@ module Naver
             execute_command(command, &block)
           end
 
-          def delete_campaign(campaign_id, options = {}, &block)
+          def delete_campaign(campaign_id, options: nil, &block)
             command = make_command(:delete, 'campaigns/{campaign_id}', options)
             command.params['campaign_id'] = campaign_id
             execute_command(command, &block)
