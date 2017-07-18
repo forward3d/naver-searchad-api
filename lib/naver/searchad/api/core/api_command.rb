@@ -11,7 +11,9 @@ module Naver
           # https://github.com/naver/searchad-apidoc/blob/master/NaverSA_API_Error_Code_MAP.md
           #
           ERROR_CODE_MAPPING = {
-            '1018' => Naver::Searchad::Api::NotEnoughPermissionError
+            '1002' => Naver::Searchad::Api::InvalidRequestError,
+            '1018' => Naver::Searchad::Api::NotEnoughPermissionError,
+            '3506' => Naver::Searchad::Api::CampaignAlreadyExistError,
           }
 
           attr_accessor :request_object
@@ -27,12 +29,19 @@ module Naver
           def decode_response_body(content_type, body)
             return super unless content_type
             return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
-            JSON.parse(body)
+
+            decoded_response = JSON.parse(body)
+            deep_snake_case_params!(decoded_response)
+            if decoded_response.kind_of?(Hash)
+              OpenStruct.new(decoded_response)
+            elsif decoded_response.kind_of?(Array)
+              decoded_response.map { |h| OpenStruct.new(h) }
+            end
           end
 
           def check_status(status, header = nil, body = nil, message = nil)
             case status
-            when 400, 402...500
+            when 400, 402..500
               code, message = parse_error(body)
               raise ERROR_CODE_MAPPING[code].new(
                 message,
@@ -47,9 +56,35 @@ module Naver
 
           private
 
+          def deep_snake_case_params!(val)
+            case val
+            when Array
+              val.map {|v| deep_snake_case_params! v }
+            when Hash
+              val.keys.each do |k, v = val[k]|
+                val.delete k
+                val[to_snake_case(k)] = deep_snake_case_params!(v)
+              end
+              val
+            else
+              val
+            end
+          end
+
+          def to_snake_case(str)
+            str.gsub(/::/, '/').
+              gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+                gsub(/([a-z\d])([A-Z])/,'\1_\2').
+                  tr("-", "_").
+                    downcase
+          end
+
           def parse_error(body)
             obj = JSON.parse(body)
-            [obj['code'].to_s, obj['title']]
+            message = obj['title']
+            message << ", #{obj['detail']}" if obj['detail']
+
+            [obj['code'].to_s, message]
           rescue
             [nil, nil]
           end

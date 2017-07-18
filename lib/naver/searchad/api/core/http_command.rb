@@ -1,8 +1,8 @@
 require 'addressable/uri'
 require 'addressable/template'
-require 'naver/searchad/api/errors'
-require 'naver/searchad/api/options'
-require 'naver/searchad/api/core/logging'
+require_relative '../errors'
+require_relative '../options'
+require_relative 'logging'
 
 module Naver
   module Searchad
@@ -112,7 +112,7 @@ module Naver
           private
 
           def apply_request_options(req_header)
-            options.authorization.apply(req_header) if options.authorization.respond_to?(:apply)
+            options.authorization.apply(req_header, url.path, method) if options.authorization.respond_to?(:apply)
             req_header.merge!(header)
           end
 

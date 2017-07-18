@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe Naver::Searchad::Api::Core::BaseService do
+include Naver::Searchad::Api
+
+describe Core::BaseService do
   subject(:this) { described_class.new('http://forward3d.com/') }
 
   describe '#user_agent' do
@@ -8,8 +10,8 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when specific application name/version are given' do
       before do
-        Naver::Searchad::Api::ClientOptions.default.application_name = 'test'
-        Naver::Searchad::Api::ClientOptions.default.application_version = '99.9'
+        ClientOptions.default.application_name = 'test'
+        ClientOptions.default.application_version = '99.9'
       end
 
       it { expect(user_agent).to match(/^test\/99.9/) }
@@ -25,7 +27,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when default authorization option is given' do
       before(:each) do
-        Naver::Searchad::Api::RequestOptions.default.authorization = 'auth token'
+        RequestOptions.default.authorization = 'auth token'
       end
 
       it 'should inherit authorization' do
@@ -49,7 +51,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when proxy default option is given' do
       before(:each) do
-        Naver::Searchad::Api::ClientOptions.default.proxy_url = 'http://forward.proxy.com'
+        ClientOptions.default.proxy_url = 'http://forward.proxy.com'
       end
 
       it 'should set given option to proxy url' do
@@ -59,7 +61,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when connection open timeout option is given' do
       before(:each) do
-        Naver::Searchad::Api::ClientOptions.default.open_timeout_sec = 100
+        ClientOptions.default.open_timeout_sec = 100
       end
 
       it 'should set given option to connect_timeout' do
@@ -69,7 +71,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when connection read timeout option is given' do
       before(:each) do
-        Naver::Searchad::Api::ClientOptions.default.read_timeout_sec = 99
+        ClientOptions.default.read_timeout_sec = 99
       end
 
       it 'should set given option to receive_timeout' do
@@ -79,7 +81,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when connection send timeout option is given' do
       before(:each) do
-        Naver::Searchad::Api::ClientOptions.default.send_timeout_sec = 98
+        ClientOptions.default.send_timeout_sec = 98
       end
 
       it 'should set given option to send_timeout' do
@@ -112,7 +114,7 @@ describe Naver::Searchad::Api::Core::BaseService do
   describe '#execute_command' do
     context 'when executing a command with get request' do
       before(:each) do
-        stub_request(:get, "http://forward3d.com/foo/bar/100?foo=bar").
+        stub_request(:get, 'http://forward3d.com/foo/bar/100?foo=bar').
           to_return(headers: { }, body: 'Hello')
       end
 
@@ -128,7 +130,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when executing a command with post request and object' do
       before(:each) do
-        stub_request(:post, "http://forward3d.com/foo/bar").
+        stub_request(:post, 'http://forward3d.com/foo/bar').
           with(body: '{"campaign":"test-00"}').
             to_return(headers: { 'Content-Type' => 'application/json' },
                       body: '{"result":"ok"}')
@@ -139,7 +141,7 @@ describe Naver::Searchad::Api::Core::BaseService do
           command = this.send(:make_command, :post, 'foo/bar', {})
           command.request_object = { 'campaign' => 'test-00' }
           this.send(:execute_command, command, &b)
-        end.to yield_with_args({ 'result' => 'ok' }, nil)
+        end.to yield_with_args(OpenStruct.new('result' => 'ok'), nil)
       end
     end
   end

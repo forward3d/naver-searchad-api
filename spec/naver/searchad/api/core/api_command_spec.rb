@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe Naver::Searchad::Api::Core::ApiCommand do
+include Naver::Searchad::Api
+
+describe Core::ApiCommand do
   subject(:this) { described_class.new(method, url) }
   let(:method) { :get }
   let(:url) { 'http://forwrd3d.com' }
@@ -54,7 +56,7 @@ describe Naver::Searchad::Api::Core::ApiCommand do
       let(:content_type) { 'application/json' }
       let(:body) { '{"foo":"bar"}' }
 
-      it { expect(decode_response_body).to eq({'foo' => 'bar'}) }
+      it { expect(decode_response_body).to eq(OpenStruct.new('foo' => 'bar')) }
     end
   end
 
@@ -64,12 +66,12 @@ describe Naver::Searchad::Api::Core::ApiCommand do
     context 'Naver request related api returned' do
       let(:body) { '{"code":1018,"status":404,"title":"No permission to access the resource."}' }
 
-      it { expect{ check_status }.to raise_error(Naver::Searchad::Api::NotEnoughPermissionError) }
+      it { expect{ check_status }.to raise_error(NotEnoughPermissionError) }
     end
   end
 
   describe '.execute' do
-    subject(:execute) { this.execute(Naver::Searchad::Api::Core::BaseService.new('', '').client) }
+    subject(:execute) { this.execute(Core::BaseService.new('', '').client) }
 
     context 'when post request with json body' do
       let(:method) { :post }
@@ -98,7 +100,7 @@ describe Naver::Searchad::Api::Core::ApiCommand do
       end
 
       it 'should return decoded body' do
-        expect(execute).to eq({ 'foo' => 'bar' })
+        expect(execute).to eq(OpenStruct.new('foo' => 'bar'))
       end
     end
 
@@ -110,7 +112,7 @@ describe Naver::Searchad::Api::Core::ApiCommand do
       end
 
       it 'should raise RateLimitError' do
-        expect{ execute }.to raise_error(Naver::Searchad::Api::RateLimitError)
+        expect{ execute }.to raise_error(RateLimitError)
       end
     end
 
@@ -122,7 +124,7 @@ describe Naver::Searchad::Api::Core::ApiCommand do
       end
 
       it 'should raise NotEnoughPermissionError' do
-        expect{ execute }.to raise_error(Naver::Searchad::Api::NotEnoughPermissionError)
+        expect{ execute }.to raise_error(NotEnoughPermissionError)
       end
     end
   end
