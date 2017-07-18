@@ -1,52 +1,36 @@
 require 'spec_helper'
 
-describe Naver::Searchad::Api::Campaign::Service do
+include Naver::Searchad::Api
+
+describe Campaign::Service do
   subject(:this) { described_class.new }
-
-  before(:each) do
-    #ENV['NAVER_API_KEY'] = 'test_key'
-    #ENV['NAVER_API_SECRET'] = 'test_secret'
-    #ENV['NAVER_API_CLIENT_ID'] = '113131'
-
-    ENV['NAVER_API_KEY'] = '0100000000f2e75122770874cb904034e7e27f5815c21af53a93f25b0f05f0ce97f263650c'
-    ENV['NAVER_API_SECRET'] = 'AQAAAADy51Eidwh0y5BANOfif1gVwHjWG4MrXg6Mbh54YHY4MQ=='
-    ENV['NAVER_API_CLIENT_ID'] = '1077530'
-  end
-
-  after(:each) do
-    ENV['NAVER_API_KEY'] = ''
-    ENV['NAVER_API_SECRET'] = ''
-    ENV['NAVER_API_CLIENT_ID'] = ''
-  end
 
   describe '#create_campaign' do
     subject(:create_campaign) { this.create_campaign(campaign, {}) }
+    let(:campaign) {
+      {
+        'campaignTp' => 'WEB_SITE',
+        'name' => 'test-04',
+        'customerId' => '113131'
+      }
+    }
 
     context 'when all ok' do
       before(:each) do
-        this.authorization = Naver::Searchad::Api::Auth.get_application_default
+        this.authorization = Auth.get_application_default
         stub_request(:post, 'https://api.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
             to_return(
               status: 200,
-              body: "{\"nccCampaignId\":\"cmp-a001-01-000000000653279\",\"customerId\":1077530,\"name\":\"test-04\",\"userLock\":false,\"campaignTp\":\"WEB_SITE\",\"deliveryMethod\":\"ACCELERATED\",\"trackingMode\":\"TRACKING_DISABLED\",\"delFlag\":false,\"regTm\":\"2017-07-17T17:23:43.000Z\",\"editTm\":\"2017-07-17T17:23:43.000Z\",\"usePeriod\":false,\"dailyBudget\":0,\"useDailyBudget\":false,\"status\":\"ELIGIBLE\",\"statusReason\":\"ELIGIBLE\",\"expectCost\":0,\"migType\":0}",
+              body: "{\"nccCampaignId\":\"cmp-a001-01-000000000653279\",\"customerId\":113131,\"name\":\"test-04\",\"userLock\":false,\"campaignTp\":\"WEB_SITE\",\"deliveryMethod\":\"ACCELERATED\",\"trackingMode\":\"TRACKING_DISABLED\",\"delFlag\":false,\"regTm\":\"2017-07-17T17:23:43.000Z\",\"editTm\":\"2017-07-17T17:23:43.000Z\",\"usePeriod\":false,\"dailyBudget\":0,\"useDailyBudget\":false,\"status\":\"ELIGIBLE\",\"statusReason\":\"ELIGIBLE\",\"expectCost\":0,\"migType\":0}",
               headers: {'Content-Type' => 'application/json;charset=UTF-8'}
               )
       end
-      let(:campaign) {
-        {
-          #{}"campaignTp" => "WEB_SITE",
-          "name" => "test-05",
-          "customerId" => "1077530"
-          #{}"customerId" => "113131"
-        }
-      }
 
       it 'should return a created campaign object in hash with 200 ok' do
-        WebMock.disable!
         campaign = create_campaign
         expect(campaign.ncc_campaign_id).to eq('cmp-a001-01-000000000653279')
-        expect(campaign.customer_id).to eq(1077530)
+        expect(campaign.customer_id).to eq(113131)
         expect(campaign.name).to eq('test-04')
         expect(campaign.user_lock).to eq(false)
         expect(campaign.campaign_tp).to eq('WEB_SITE')
@@ -64,10 +48,86 @@ describe Naver::Searchad::Api::Campaign::Service do
       end
     end
 
+    context 'when no authorization is given' do
+      before(:each) do
+        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+          with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
+            to_return(
+              status: 403,
+              body: "{\"header\":\"X-API-KEY\",\"status\":403,\"title\":\"Missing Header\",\"detail\":\"HTTP header required: X-API-KEY\",\"type\":\"urn:naver:api:problem:missing-header\"}",
+              headers: {'Content-Type' => 'application/json;charset=UTF-8'}
+              )
+      end
+
+      it { expect { create_campaign }.to raise_error(RequestError) }
+    end
+
+    context 'when invalid api key is given' do
+      before(:each) do
+        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+          with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
+            to_return(
+              status: 403,
+              body: "{\"apikey\":\"#{ENV['NAVER_API_KEY']}\",\"status\":403,\"detail\":\"API-KEY '#{ENV['NAVER_API_KEY']}' is invalid.\",\"title\":\"Invalid API-KEY\",\"type\":\"urn:naver:api:problem:invalid-apikey\"}",
+              headers: {'Content-Type' => 'application/json;charset=UTF-8'}
+              )
+      end
+
+      it { expect { create_campaign }.to raise_error(RequestError) }
+    end
+
+    context 'when invalid api secret is given' do
+      before(:each) do
+        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+          with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
+            to_return(
+              status: 403,
+              body: "{\"signature\":\"74/lMuS4QVQs4o4B3BPellNUkxY5lr+FaHCERucig/w=\",\"status\":403,\"detail\":\"Signature '74/lMuS4QVQs4o4B3BPellNUkxY5lr+FaHCERucig/w=' is invalid.\",\"title\":\"Invalid Signature\",\"type\":\"urn:naver:api:problem:invalid-signature\"}",
+              headers: {'Content-Type' => 'application/json;charset=UTF-8'}
+              )
+      end
+
+      it { expect { create_campaign }.to raise_error(RequestError) }
+    end
+
+    context 'when invalid client id in authorization is given' do
+      before(:each) do
+        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+          with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
+            to_return(
+              status: 403,
+              body: "{\"apikey\":\"#{ENV['NAVER_API_KEY']}\",\"customerId\":#{ENV['NAVER_API_CLIENT_ID']},\"status\":403,\"detail\":\"Auth failed with api-key: #{ENV['NAVER_API_KEY']}, customer-id: #{ENV['NAVER_API_CLIENT_ID']}\",\"title\":\"Auth Failed\",\"type\":\"urn:naver:api:problem:auth-failed\"}",
+              headers: {'Content-Type' => 'application/json;charset=UTF-8'}
+              )
+      end
+
+      it { expect { create_campaign }.to raise_error(RequestError) }
+    end
+
     context 'when creating a campaign with existing name' do
+      before(:each) do
+        campaign['name'] = 'existing-campaign'
+        this.authorization = Auth.get_application_default
+        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+          with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"existing-campaign\",\"customerId\":\"113131\"}").
+            to_return(
+              status: 400,
+              body: "{\"code\":3506,\"status\":400,\"title\":\"A campaign with the same name already exists.\"}"
+              )
+      end
+
+      it { expect { create_campaign }.to raise_error(CampaignAlreadyExistError) }
     end
 
     context 'when missing required attribute in request object' do
+      let(:campaign) {
+        {
+          'campaignTp' => 'WEB_SITE',
+          'name' => 'test-04',
+        }
+      }
+
+      it { expect { create_campaign }.to raise_error(MissingRequiredAttributeError) }
     end
   end
 end

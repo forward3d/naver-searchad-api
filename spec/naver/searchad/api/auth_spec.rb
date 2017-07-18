@@ -46,15 +46,19 @@ describe DefaultCredentials do
   describe '.from_env' do
     context 'when all ok' do
       before(:each) do
+        @orginal_api_key = ENV['NAVER_API_KEY']
+        @orginal_api_secret = ENV['NAVER_API_SECRET']
+        @orginal_client_id = ENV['NAVER_API_CLIENT_ID']
+
         ENV['NAVER_API_KEY'] = 'key'
         ENV['NAVER_API_SECRET'] = 'secret'
         ENV['NAVER_API_CLIENT_ID'] = '100993'
       end
 
       after(:each) do
-        ENV['NAVER_API_KEY'] = ''
-        ENV['NAVER_API_SECRET'] = ''
-        ENV['NAVER_API_CLIENT_ID'] = ''
+        ENV['NAVER_API_KEY'] = @orginal_api_key
+        ENV['NAVER_API_SECRET'] = @orginal_api_secret
+        ENV['NAVER_API_CLIENT_ID'] = @orginal_client_id
       end
 
       it 'should return CustomerAcccountCredentials object with data from ENV' do

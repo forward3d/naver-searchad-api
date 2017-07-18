@@ -16,6 +16,10 @@ require 'naver/searchad/api/core/base_service'
 require 'naver/searchad/api/auth'
 require 'naver/searchad/api/campaign/service'
 
+ENV['NAVER_API_KEY'] = '0100000000f2e75122770874cb904034e7e27f5815c21af53a93f25b0f05f0ce97f263650c'
+ENV['NAVER_API_SECRET'] = 'AQAAAADy51Eidwh0y5BANOfif1gVwHjWG4MrXg6Mbh54YHY4MQ=='
+ENV['NAVER_API_CLIENT_ID'] = '1077530'
+
 RSpec.configure do |config|
   config.include WebMock::API
 
