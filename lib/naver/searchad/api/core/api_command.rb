@@ -11,7 +11,9 @@ module Naver
           # https://github.com/naver/searchad-apidoc/blob/master/NaverSA_API_Error_Code_MAP.md
           #
           ERROR_CODE_MAPPING = {
-            '1018' => Naver::Searchad::Api::NotEnoughPermissionError
+            '1002' => Naver::Searchad::Api::InvalidRequestError,
+            '1018' => Naver::Searchad::Api::NotEnoughPermissionError,
+            '3506' => Naver::Searchad::Api::CampaignAlreadyExistError,
           }
 
           attr_accessor :request_object
@@ -24,11 +26,21 @@ module Naver
             super
           end
 
+          def to_snake_case(str)
+            str.gsub(/::/, '/').
+              gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+                gsub(/([a-z\d])([A-Z])/,'\1_\2').
+                  tr("-", "_").
+                    downcase
+          end
+
           def decode_response_body(content_type, body)
             return super unless content_type
             return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
-            hash = JSON.parse(body)
-            Struct.new(*hash.keys).new(*hash.values)
+
+            snake_case_hash = {}
+            JSON.parse(body).each { |k, v| snake_case_hash[to_snake_case(k)] = v }
+            OpenStruct.new(snake_case_hash)
           end
 
           def check_status(status, header = nil, body = nil, message = nil)

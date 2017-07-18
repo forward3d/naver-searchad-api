@@ -46,6 +46,10 @@ module Naver
       class NotEnoughPermissionError < Error; end
 
       class MissingRequiredAttributeError < RequestError; end
+
+      class InvalidRequestError < RequestError; end
+
+      class CampaignAlreadyExistError < RequestError; end
     end
   end
 end

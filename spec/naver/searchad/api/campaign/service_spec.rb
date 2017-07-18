@@ -4,9 +4,13 @@ describe Naver::Searchad::Api::Campaign::Service do
   subject(:this) { described_class.new }
 
   before(:each) do
-    ENV['NAVER_API_KEY'] = 'test_key'
-    ENV['NAVER_API_SECRET'] = 'test_secret'
-    ENV['NAVER_API_CLIENT_ID'] = '113131'
+    #ENV['NAVER_API_KEY'] = 'test_key'
+    #ENV['NAVER_API_SECRET'] = 'test_secret'
+    #ENV['NAVER_API_CLIENT_ID'] = '113131'
+
+    ENV['NAVER_API_KEY'] = '0100000000f2e75122770874cb904034e7e27f5815c21af53a93f25b0f05f0ce97f263650c'
+    ENV['NAVER_API_SECRET'] = 'AQAAAADy51Eidwh0y5BANOfif1gVwHjWG4MrXg6Mbh54YHY4MQ=='
+    ENV['NAVER_API_CLIENT_ID'] = '1077530'
   end
 
   after(:each) do
@@ -31,31 +35,36 @@ describe Naver::Searchad::Api::Campaign::Service do
       end
       let(:campaign) {
         {
-          "campaignTp" => "WEB_SITE",
-          "name" => "test-04",
-          "customerId" => "113131"
+          #{}"campaignTp" => "WEB_SITE",
+          "name" => "test-05",
+          "customerId" => "1077530"
+          #{}"customerId" => "113131"
         }
       }
 
       it 'should return a created campaign object in hash with 200 ok' do
+        WebMock.disable!
         campaign = create_campaign
-        expect(campaign).to include('nccCampaignId')
-        expect(campaign).to include('customerId')
-        expect(campaign).to include('name')
-        expect(campaign).to include('userLock')
-        expect(campaign).to include('campaignTp')
-        expect(campaign).to include('deliveryMethod')
-        expect(campaign).to include('trackingMode')
-        expect(campaign).to include('delFlag')
-        expect(campaign).to include('regTm')
-        expect(campaign).to include('editTm')
-        expect(campaign).to include('usePeriod')
-        expect(campaign).to include('dailyBudget')
-        expect(campaign).to include('status')
-        expect(campaign).to include('statusReason')
-        expect(campaign).to include('expectCost')
-        expect(campaign).to include('migType')
+        expect(campaign.ncc_campaign_id).to eq('cmp-a001-01-000000000653279')
+        expect(campaign.customer_id).to eq(1077530)
+        expect(campaign.name).to eq('test-04')
+        expect(campaign.user_lock).to eq(false)
+        expect(campaign.campaign_tp).to eq('WEB_SITE')
+        expect(campaign.delivery_method).to eq('ACCELERATED')
+        expect(campaign.tracking_mode).to eq('TRACKING_DISABLED')
+        expect(campaign.del_flag).to eq(false)
+        expect(campaign.reg_tm).to eq('2017-07-17T17:23:43.000Z')
+        expect(campaign.edit_tm).to eq('2017-07-17T17:23:43.000Z')
+        expect(campaign.use_period).to eq(false)
+        expect(campaign.daily_budget).to eq(0)
+        expect(campaign.status).to eq('ELIGIBLE')
+        expect(campaign.status_reason).to eq('ELIGIBLE')
+        expect(campaign.expect_cost).to eq(0)
+        expect(campaign.mig_type).to eq(0)
       end
+    end
+
+    context 'when creating a campaign with existing name' do
     end
 
     context 'when missing required attribute in request object' do
