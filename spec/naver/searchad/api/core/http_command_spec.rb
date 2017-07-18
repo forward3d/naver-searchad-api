@@ -1,11 +1,13 @@
 require 'spec_helper'
 
-describe Naver::Searchad::Api::Core::HttpCommand do
+include Naver::Searchad::Api
+
+describe Core::HttpCommand do
   subject(:this) { described_class.new(method, url, body: request_body) }
 
   describe '.execute' do
     subject(:execute) { this.execute(client) }
-    let(:client) { Naver::Searchad::Api::Core::BaseService.new('', '').client }
+    let(:client) { Core::BaseService.new('', '').client }
     let(:url) { 'http://www.forward3d.com' }
     let(:body) { 'Hi Forward3d' }
     let(:header) { { 'Content-Type' => ['html/text'] } }
@@ -40,11 +42,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 301 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::RedirectError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, RedirectError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::RedirectError) }
+          it { expect{ execute }.to raise_error(RedirectError) }
         end
       end
 
@@ -52,11 +54,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 400 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::RequestError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, RequestError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::RequestError) }
+          it { expect{ execute }.to raise_error(RequestError) }
         end
       end
 
@@ -64,11 +66,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 401 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::AuthorizationError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, AuthorizationError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::AuthorizationError) }
+          it { expect{ execute }.to raise_error(AuthorizationError) }
         end
       end
 
@@ -76,11 +78,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 404 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::RequestError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, RequestError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::RequestError) }
+          it { expect{ execute }.to raise_error(RequestError) }
         end
       end
 
@@ -88,11 +90,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 429 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::RateLimitError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, RateLimitError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::RateLimitError) }
+          it { expect{ execute }.to raise_error(RateLimitError) }
         end
       end
 
@@ -100,11 +102,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 500 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::ServerError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, ServerError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::ServerError) }
+          it { expect{ execute }.to raise_error(ServerError) }
         end
       end
 
@@ -112,11 +114,11 @@ describe Naver::Searchad::Api::Core::HttpCommand do
         let(:status) { 600 }
 
         context 'with block given' do
-          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, Naver::Searchad::Api::UnknownError) }
+          it { expect { |b| this.execute(client, &b) }.to yield_with_args(nil, UnknownError) }
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(Naver::Searchad::Api::UnknownError) }
+          it { expect{ execute }.to raise_error(UnknownError) }
         end
       end
 
@@ -126,7 +128,7 @@ describe Naver::Searchad::Api::Core::HttpCommand do
             to_raise(HTTPClient::BadResponseError.new('', double('http_res', status: 404, header: {}, body: '')))
         end
 
-        it { expect{ execute }.to raise_error(Naver::Searchad::Api::RequestError) }
+        it { expect{ execute }.to raise_error(RequestError) }
       end
 
       context 'with HTTPClient::TimeoutError' do
@@ -136,7 +138,7 @@ describe Naver::Searchad::Api::Core::HttpCommand do
           }
         end
 
-        it { expect{ execute }.to raise_error(Naver::Searchad::Api::TransmissionError) }
+        it { expect{ execute }.to raise_error(TransmissionError) }
       end
     end
 
