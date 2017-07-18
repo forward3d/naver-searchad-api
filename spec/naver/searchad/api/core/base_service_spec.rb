@@ -112,7 +112,7 @@ describe Naver::Searchad::Api::Core::BaseService do
   describe '#execute_command' do
     context 'when executing a command with get request' do
       before(:each) do
-        stub_request(:get, "http://forward3d.com/foo/bar/100?foo=bar").
+        stub_request(:get, 'http://forward3d.com/foo/bar/100?foo=bar').
           to_return(headers: { }, body: 'Hello')
       end
 
@@ -128,7 +128,7 @@ describe Naver::Searchad::Api::Core::BaseService do
 
     context 'when executing a command with post request and object' do
       before(:each) do
-        stub_request(:post, "http://forward3d.com/foo/bar").
+        stub_request(:post, 'http://forward3d.com/foo/bar').
           with(body: '{"campaign":"test-00"}').
             to_return(headers: { 'Content-Type' => 'application/json' },
                       body: '{"result":"ok"}')

@@ -26,21 +26,17 @@ module Naver
             super
           end
 
-          def to_snake_case(str)
-            str.gsub(/::/, '/').
-              gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-                gsub(/([a-z\d])([A-Z])/,'\1_\2').
-                  tr("-", "_").
-                    downcase
-          end
-
           def decode_response_body(content_type, body)
             return super unless content_type
             return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
 
-            snake_case_hash = {}
-            JSON.parse(body).each { |k, v| snake_case_hash[to_snake_case(k)] = v }
-            OpenStruct.new(snake_case_hash)
+            decoded_response = JSON.parse(body)
+            deep_snake_case_params!(decoded_response)
+            if decoded_response.kind_of?(Hash)
+              OpenStruct.new(decoded_response)
+            elsif decoded_response.kind_of?(Array)
+              decoded_response.map { |h| OpenStruct.new(h) }
+            end
           end
 
           def check_status(status, header = nil, body = nil, message = nil)
@@ -59,6 +55,29 @@ module Naver
           end
 
           private
+
+          def deep_snake_case_params!(val)
+            case val
+            when Array
+              val.map {|v| deep_snake_case_params! v }
+            when Hash
+              val.keys.each do |k, v = val[k]|
+                val.delete k
+                val[to_snake_case(k)] = deep_snake_case_params!(v)
+              end
+              val
+            else
+              val
+            end
+          end
+
+          def to_snake_case(str)
+            str.gsub(/::/, '/').
+              gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+                gsub(/([a-z\d])([A-Z])/,'\1_\2').
+                  tr("-", "_").
+                    downcase
+          end
 
           def parse_error(body)
             obj = JSON.parse(body)
