@@ -46,15 +46,6 @@ module Naver
             command.params['campaign_id'] = campaign_id
             execute_command(command, &block)
           end
-
-          private
-
-          def validates_presence_of(required_fields, object)
-            required_fields.each do |key|
-              raise MissingRequiredAttributeError.new(
-                "Require #{key} attribute in campaign object") unless object.key?(key)
-            end
-          end
         end
       end
     end

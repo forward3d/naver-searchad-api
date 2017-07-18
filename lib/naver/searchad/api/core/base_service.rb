@@ -55,6 +55,13 @@ module Naver
             # To be implemented by subclasses
           end
 
+          def validates_presence_of(fields, object)
+            fields.each do |key|
+              raise MissingRequiredAttributeError.new(
+                "Require #{key} attribute in campaign object") unless object.key?(key)
+            end
+          end
+
           private
 
           def new_client
