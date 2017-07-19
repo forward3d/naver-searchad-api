@@ -30,13 +30,12 @@ module Naver
             execute_command(command, &block)
           end
 
-          def update_campaign(campaign, field, options: nil, &block)
+          def update_campaign(campaign, field: nil, options: nil, &block)
             validates_presence_of(%w[nccCampaignId], campaign)
 
             command = make_command(:put, 'campaigns/{campaign_id}', options)
             command.params['campaign_id'] = campaign['nccCampaignId']
-            # Note: currently it does accept only one field at a time
-            command.query['fields'] = field
+            command.query['fields'] = field if field
             command.request_object = campaign
             execute_command(command, &block)
           end

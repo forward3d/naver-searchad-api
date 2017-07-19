@@ -51,7 +51,7 @@ JSON
       end
 
       it 'should return a created campaign object in hash with 200 ok' do
-        expect { |b| this.create_campaign(campaign, {}, &b) }.
+        expect { |b| this.create_campaign(campaign, &b) }.
           to yield_with_args(OpenStruct.new(
             ncc_campaign_id: 'cmp-a001-01-000000000653279',
             customer_id: 113131,
@@ -250,7 +250,7 @@ JSON
       let(:campaign_ids) { ['cmp-a001-01-000000000652963', 'cmp-a001-01-000000000653273'] }
 
       it 'should return an array of relevant campaign items' do
-        expect { |b| this.list_campaigns_by_ids(campaign_ids, {}, &b) }.
+        expect { |b| this.list_campaigns_by_ids(campaign_ids, &b) }.
           to yield_with_args([
             OpenStruct.new(
               ncc_campaign_id: 'cmp-a001-01-000000000652963',
@@ -348,7 +348,7 @@ JSON
       let(:campaign_id) { 'cmp-a001-01-000000000652963' }
 
       it 'should return relevant campaign item' do
-        expect { |b| this.get_campaign(campaign_id, {}, &b) }.
+        expect { |b| this.get_campaign(campaign_id, &b) }.
           to yield_with_args(OpenStruct.new(
             ncc_campaign_id: 'cmp-a001-01-000000000652963',
             customer_id: 113131,
@@ -394,7 +394,6 @@ JSON
   describe '#update_campaign' do
     context 'when all ok' do
       context 'with userLock given' do
-        let(:field) { 'userLock' }
         let(:campaign) do
           {
             'nccCampaignId' => 'cmp-a001-01-000000000652963',
@@ -410,53 +409,19 @@ JSON
             body: <<-JSON
 {
   "nccCampaignId":"cmp-a001-01-000000000652963",
-  "customerId":113131,
-  "name":"test-00",
-  "userLock":true,
-  "campaignTp":"WEB_SITE",
-  "deliveryMethod":"ACCELERATED",
-  "trackingMode":"TRACKING_DISABLED",
-  "delFlag":false,
-  "regTm":"2017-07-17T09:54:34.000Z",
-  "editTm":"2017-07-18T13:59:28.000Z",
-  "usePeriod":false,
-  "dailyBudget":0,
-  "useDailyBudget":false,
-  "status":"ELIGIBLE",
-  "statusReason":"ELIGIBLE",
-  "expectCost":0,
-  "migType":0
+  "userLock":true
 }
 JSON
           )
         end
 
-        it 'should update user_lock field and return updated object' do
-          expect { |b| this.update_campaign(campaign, field, {}, &b) }.
-            to yield_with_args(OpenStruct.new(
-              ncc_campaign_id: 'cmp-a001-01-000000000652963',
-              customer_id: 113131,
-              name: 'test-00',
-              user_lock: true,
-              campaign_tp: 'WEB_SITE',
-              delivery_method: 'ACCELERATED',
-              tracking_mode: 'TRACKING_DISABLED',
-              del_flag: false,
-              reg_tm: '2017-07-17T09:54:34.000Z',
-              edit_tm: '2017-07-18T13:59:28.000Z',
-              use_period: false,
-              daily_budget: 0,
-              use_daily_budget: false,
-              status: 'ELIGIBLE',
-              status_reason: 'ELIGIBLE',
-              expect_cost: 0,
-              mig_type: 0
-            ), nil)
+        it 'should update user_lock' do
+          result = this.update_campaign(campaign, field: 'userLock')
+          expect(result.user_lock).to eq(true)
         end
       end
 
       context 'with budget given' do
-        let(:field) { 'budget' }
         let(:campaign) do
           {
             'nccCampaignId' => 'cmp-a001-01-000000000652963',
@@ -473,53 +438,21 @@ JSON
             body: <<-JSON
 {
   "nccCampaignId":"cmp-a001-01-000000000652963",
-  "customerId":113131,
-  "name":"test-00",
-  "userLock":true,
-  "campaignTp":"WEB_SITE",
-  "deliveryMethod":"ACCELERATED",
-  "trackingMode":"TRACKING_DISABLED",
-  "delFlag":false,
-  "regTm":"2017-07-17T09:54:34.000Z",
-  "editTm":"2017-07-18T13:59:28.000Z",
-  "usePeriod":false,
   "dailyBudget":100,
-  "useDailyBudget":true,
-  "status":"ELIGIBLE",
-  "statusReason":"ELIGIBLE",
-  "expectCost":0,
-  "migType":0
+  "useDailyBudget":true
 }
 JSON
           )
         end
 
-        it 'should update daily_budget and use_daily_budget fields and return updated object' do
-          expect { |b| this.update_campaign(campaign, field, {}, &b) }.
-            to yield_with_args(OpenStruct.new(
-              ncc_campaign_id: 'cmp-a001-01-000000000652963',
-              customer_id: 113131,
-              name: 'test-00',
-              user_lock: true,
-              campaign_tp: 'WEB_SITE',
-              delivery_method: 'ACCELERATED',
-              tracking_mode: 'TRACKING_DISABLED',
-              del_flag: false,
-              reg_tm: '2017-07-17T09:54:34.000Z',
-              edit_tm: '2017-07-18T13:59:28.000Z',
-              use_period: false,
-              daily_budget: 100,
-              use_daily_budget: true,
-              status: 'ELIGIBLE',
-              status_reason: 'ELIGIBLE',
-              expect_cost: 0,
-              mig_type: 0
-            ), nil)
+        it 'should update daily_budget and use_daily_budget' do
+          result = this.update_campaign(campaign, field: 'budget')
+          expect(result.daily_budget).to eq(100)
+          expect(result.use_daily_budget).to eq(true)
         end
       end
 
       context 'with period given' do
-        let(:field) { 'period' }
         let(:campaign) do
           {
             'nccCampaignId' => 'cmp-a001-01-000000000652963',
@@ -537,15 +470,56 @@ JSON
               body: <<-JSON
 {
   "nccCampaignId":"cmp-a001-01-000000000652963",
-  "customerId":113131,
-  "name":"test-00",
-  "userLock":true,
+  "usePeriod":true,
+  "periodStartDt":"2017-08-17T15:00:00.000Z",
+  "periodEndDt":"2017-08-30T15:00:00.000Z"
+}
+JSON
+          )
+        end
+
+        it 'should update use_period, period_start_dt and period_end_dt fields and return updated object' do
+          result = this.update_campaign(campaign, field: 'period')
+          expect(result.use_period).to eq(true)
+          expect(result.period_start_dt).to eq('2017-08-17T15:00:00.000Z')
+          expect(result.period_end_dt).to eq('2017-08-30T15:00:00.000Z')
+        end
+      end
+
+      context 'without specific field' do
+        let(:campaign) do
+          {
+            'nccCampaignId' => 'cmp-a001-01-000000000652963',
+            'name' => 'test-updated',
+            'campaignTp' => 'WEB_SITE',
+            'customerId' => 1077530,
+            'userLock' => false,
+            'deliveryMethod' => 'ACCELERATED',
+            "trackingMode" => "TRACKING_DISABLED",
+            'periodStartDt' => '2017-08-17T17:13:51.000Z',
+            'periodEndDt' => '2017-08-30T17:13:51.000Z',
+            'usePeriod' => true,
+            'dailyBudget' => 100,
+            'useDailyBudget' => true
+          }
+        end
+        before(:each) do
+          stub_request(:put, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963').
+            to_return(
+              status: 200,
+              headers: {'Content-Type' => 'application/json;charset=UTF-8'},
+              body: <<-JSON
+{
+  "nccCampaignId":"cmp-a001-01-000000000652963",
+  "customerId":1077530,
+  "name":"test-updated",
+  "userLock":false,
   "campaignTp":"WEB_SITE",
   "deliveryMethod":"ACCELERATED",
   "trackingMode":"TRACKING_DISABLED",
   "delFlag":false,
   "regTm":"2017-07-17T09:54:34.000Z",
-  "editTm":"2017-07-18T13:59:28.000Z",
+  "editTm":"2017-07-19T16:14:36.000Z",
   "usePeriod":true,
   "periodStartDt":"2017-08-17T15:00:00.000Z",
   "periodEndDt":"2017-08-30T15:00:00.000Z",
@@ -560,29 +534,29 @@ JSON
           )
         end
 
-        it 'should update use_period, period_start_dt and period_end_dt fields and return updated object' do
-          expect { |b| this.update_campaign(campaign, field, {}, &b) }.
+        it 'should update user_lock field and return updated object' do
+          expect { |b| this.update_campaign(campaign, &b) }.
             to yield_with_args(OpenStruct.new(
-              ncc_campaign_id: 'cmp-a001-01-000000000652963',
-              customer_id: 113131,
-              name: 'test-00',
-              user_lock: true,
-              campaign_tp: 'WEB_SITE',
-              delivery_method: 'ACCELERATED',
-              tracking_mode: 'TRACKING_DISABLED',
+              ncc_campaign_id: "cmp-a001-01-000000000652963",
+              customer_id: 1077530,
+              name: "test-updated",
+              user_lock: false,
+              campaign_tp: "WEB_SITE",
+              delivery_method: "ACCELERATED",
+              tracking_mode: "TRACKING_DISABLED",
               del_flag: false,
-              reg_tm: '2017-07-17T09:54:34.000Z',
-              edit_tm: '2017-07-18T13:59:28.000Z',
+              reg_tm: "2017-07-17T09:54:34.000Z",
+              edit_tm: "2017-07-19T16:14:36.000Z",
               use_period: true,
-              period_start_dt: '2017-08-17T15:00:00.000Z',
-              period_end_dt: '2017-08-30T15:00:00.000Z',
+              period_start_dt: "2017-08-17T15:00:00.000Z",
+              period_end_dt: "2017-08-30T15:00:00.000Z",
               daily_budget: 100,
               use_daily_budget: true,
-              status: 'PAUSED',
-              status_reason: 'CAMPAIGN_PENDING',
+              status: "PAUSED",
+              status_reason: "CAMPAIGN_PENDING",
               expect_cost: 0,
               mig_type: 0
-            ), nil)
+              ), nil)
         end
       end
     end
@@ -610,7 +584,7 @@ JSON
             )
       end
 
-      it { expect{ this.update_campaign(campaign, field) }.to raise_error(NotEnoughPermissionError) }
+      it { expect{ this.update_campaign(campaign, field: field) }.to raise_error(NotEnoughPermissionError) }
     end
 
     context 'when invalid field is given' do
@@ -636,7 +610,7 @@ JSON
             )
       end
 
-      it { expect{ this.update_campaign(campaign, field) }.to raise_error(InvalidRequestError) }
+      it { expect{ this.update_campaign(campaign, field: field) }.to raise_error(InvalidRequestError) }
     end
     #
   end
@@ -651,7 +625,7 @@ JSON
       end
 
       it 'should delete the given campaign and return none' do
-        expect { |b| this.delete_campaign(campaign_id, {}, &b) }.
+        expect { |b| this.delete_campaign(campaign_id, &b) }.
           to yield_with_args('', nil)
       end
     end
