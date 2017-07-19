@@ -9,19 +9,19 @@ module Naver
           end
 
           def list_adgroups_by_ids(adgroup_ids, options: nil, &block)
-            command = make_command(:get, 'adgroups?', options)
+            command = make_command(:get, 'adgroups', options)
             command.query['ids'] = adgroup_ids.join(',')
             execute_command(command, &block)
           end
 
           def list_adgroups_by_campaign_id(campaign_id, options: nil, &block)
-            command = make_command(:get, 'adgroups?', options)
+            command = make_command(:get, 'adgroups', options)
             command.query['nccCampaignId'] = campaign_id
             execute_command(command, &block)
           end
 
           def list_adgroups_by_label_id(label_id, options: nil, &block)
-            command = make_command(:get, 'adgroups?', options)
+            command = make_command(:get, 'adgroups', options)
             command.query['nccLabelId'] = label_id
             execute_command(command, &block)
           end
