@@ -21,11 +21,15 @@ module Naver
           end
 
           def list_ad_keywords_by_label_id(label_id, options: nil, &block)
-
+            command = make_command(:get, 'keywords', options)
+            command.query['nccLabelId'] = label_id
+            execute_command(command, &block)
           end
 
           def get_ad_keyword(ad_keyword_id, options: nil, &block)
-
+            command = make_command(:get, 'keywords/{ad_keyword_id}', options)
+            command.params['ad_keyword_id'] = ad_keyword_id
+            execute_command(command, &block)
           end
 
           def create_ad_keyword(ad_keyword, options: nil, &block)
@@ -37,6 +41,9 @@ module Naver
           end
 
           def delete_ad_keyword(ad_keyword_id, options: nil, &block)
+            command = make_command(:delete, 'keywords/{ad_keyword_id}', options)
+            command.params['ad_keyword_id'] = ad_keyword_id
+            execute_command(command, &block)
           end
         end
       end
