@@ -58,7 +58,7 @@ module Naver
           def validates_presence_of(fields, object)
             fields.each do |key|
               raise MissingRequiredAttributeError.new(
-                "Require #{key} attribute in campaign object") unless object.key?(key)
+                "Require #{key} attribute in object") unless object.key?(key)
             end
           end
 

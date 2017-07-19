@@ -181,10 +181,10 @@ JSON
               )
       end
 
-      it { expect { create_campaign }.to raise_error(CampaignAlreadyExistError) }
+      it { expect { create_campaign }.to raise_error(DuplicatedCampaignNameError) }
     end
 
-    context 'when missing required attribute in request object' do
+    context 'when missing required attributes in request object' do
       let(:campaign) {
         {
           'campaignTp' => 'WEB_SITE',
@@ -348,8 +348,6 @@ JSON
       let(:campaign_id) { 'cmp-a001-01-000000000652963' }
 
       it 'should return relevant campaign item' do
-        result =
-
         expect { |b| this.get_campaign(campaign_id, {}, &b) }.
           to yield_with_args(OpenStruct.new(
             ncc_campaign_id: 'cmp-a001-01-000000000652963',

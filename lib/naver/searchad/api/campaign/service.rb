@@ -10,14 +10,6 @@ module Naver
             super('https://api.naver.com/', 'ncc/')
           end
 
-          def create_campaign(campaign, options: nil, &block)
-            validates_presence_of(%w[campaignTp name customerId], campaign)
-
-            command = make_command(:post, 'campaigns', options)
-            command.request_object = campaign
-            execute_command(command, &block)
-          end
-
           def list_campaigns_by_ids(campaign_ids, options: nil, &block)
             command = make_command(:get, 'campaigns/', options)
             command.query['ids'] = campaign_ids.join(',')
@@ -30,13 +22,21 @@ module Naver
             execute_command(command, &block)
           end
 
+          def create_campaign(campaign, options: nil, &block)
+            validates_presence_of(%w[campaignTp name customerId], campaign)
+
+            command = make_command(:post, 'campaigns', options)
+            command.request_object = campaign
+            execute_command(command, &block)
+          end
+
           def update_campaign(campaign, field, options: nil, &block)
             validates_presence_of(%w[nccCampaignId], campaign)
 
             command = make_command(:put, 'campaigns/{campaign_id}', options)
+            command.params['campaign_id'] = campaign['nccCampaignId']
             # Note: currently it does accept only one field at a time
             command.query['fields'] = field
-            command.params['campaign_id'] = campaign['nccCampaignId']
             command.request_object = campaign
             execute_command(command, &block)
           end

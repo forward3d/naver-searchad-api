@@ -49,7 +49,9 @@ module Naver
 
       class InvalidRequestError < RequestError; end
 
-      class CampaignAlreadyExistError < RequestError; end
+      class DuplicatedCampaignNameError < RequestError; end
+
+      class DuplicatedAdgroupNameError < RequestError; end
     end
   end
 end
