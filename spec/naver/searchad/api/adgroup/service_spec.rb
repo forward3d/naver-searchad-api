@@ -9,7 +9,8 @@ describe Adgroup::Service do
   end
 
   describe '#list_adgroups_by_ids' do
-    before(:each) do
+    context 'when requesting more than one' do
+      before(:each) do
         stub_request(:get, 'https://api.naver.com/ncc/adgroups?ids=grp-a001-01-000000003853231,grp-a001-01-000000003853237').
           to_return(
             status: 200,
@@ -96,9 +97,8 @@ describe Adgroup::Service do
 JSON
         )
       end
-    let(:adgroup_ids) { %w[grp-a001-01-000000003853231 grp-a001-01-000000003853237] }
+      let(:adgroup_ids) { %w[grp-a001-01-000000003853231 grp-a001-01-000000003853237] }
 
-    context 'when requesting more than one' do
       it 'should return an array of relevant adgroup items' do
         expect { |b| this.list_adgroups_by_ids(adgroup_ids, &b) }.
           to yield_with_args([
