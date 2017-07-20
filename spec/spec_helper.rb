@@ -26,7 +26,7 @@ ENV['NAVER_API_CLIENT_ID'] = '11121212121'
 RSpec.configure do |config|
   config.include WebMock::API
 
-  Naver::Searchad::Api.logger.level = Logger::DEBUG
+  Naver::Searchad::Api.logger.level = Logger::WARN
   WebMock::Config.instance.query_values_notation = :flat_array
 
   # Enable flags like --only-failures and --next-failure

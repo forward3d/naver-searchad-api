@@ -1,8 +1,11 @@
-# Naver::Searchad::Api
+# Naver Searchad API
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/naver/searchad/api`. To experiment with that code, run `bin/console` for an interactive prompt.
+A Client GEM for [Naver Searchad API](http://naver.github.io/searchad-apidoc/#/guides)
 
-TODO: Delete this and the text above, and describe your gem
+## Alpha
+
+This library is in Alpha. We will make an effort to support the library, but we reserve the right to make incompatible
+changes when necessary.
 
 ## Installation
 
@@ -22,20 +25,94 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Basic usage
 
-## Development
+To use an API, instantiate the service. For example to use the Campaign API:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+require 'naver/searchad/api/campaign/service'
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Campaign = Naver::Searchad::Api::Campaign # Alias the module
+campaign = Campaign::Service.new
+campaign.authorization = Naver::Searchad::Api::Auth.get_application_default # See Below Authorization
 
-## Contributing
+# Read campaigns by ids
+campaign.list_campaigns_by_ids(['campaign_id_1', 'campaign_id_2']) do |res, err|
+  puts res
+end
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/naver-searchad-api. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+# Create a campaign
+campaign = { ..... }
+campaign.create_campaign(campaign) do |res, err|
+  puts res
+end
+
+# Delete
+campaign_id = ... # A campaign id to delete
+campaign.delete_campaign(campaign_id)
+```
+
+### Naming conventions vs JSON representation
+
+Object properties in the ruby client use the standard ruby convention for naming -- snake_case. This differs from the underlying JSON representation which typically uses camelCase for properties.
+
+
+### Callbacks
+
+A block can be specified when making calls. If present, the block will be called with the result or error, rather than
+returning the result from the call or raising the error. Example:
+
+```ruby
+# Read a campaign
+campaign.get_campaign('campaign_id_1') do |res, err|
+  if err
+    # Handle error
+  else
+    # Handle response
+  end
+end
+```
+
+## Authorization
+
+[Naver Searchad API authorization](http://naver.github.io/searchad-apidoc/#/samples) is used to authorize applications.
+
+### Authorization using environment variables
+
+The [Naver Searchad API Auth](https://github.com/forward3d/naver-searchad-api/blob/master/lib/naver/searchad/api/auth.rb) also supports authorization via
+environment variables if you do not want to check in developer credentials
+or private keys. Simply set the following variables for your application:
+
+```sh
+NAVER_API_KEY="YOUR NAVER DEVELOPER API KEY"
+NAVER_API_SECRET="YOUR NAVER DEVELOPER API SECRET"
+NAVER_API_CLIENT_ID="YOUR NAVER DEVELOPER CLIENT ID"
+```
+
+## Logging
+
+The client includes a `Logger` instance that can be used to capture debugging information.
+
+To set the logging level for the client:
+
+```ruby
+Naver::Searchad::Api.logger.level = Logger::DEBUG
+```
+
+When running in a Rails environment, the client will default to using `::Rails.logger`. If you
+prefer to use a separate logger instance for API calls, this can be changed via one of two ways.
+
+The first is to provide a new logger instance:
+
+```ruby
+Naver::Searchad::Api.logger = Logger.new(STDERR)
+```
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+This library is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE).
 
+## Contributing
+
+See [CONTRIBUTING](CONTRIBUTING.md).
