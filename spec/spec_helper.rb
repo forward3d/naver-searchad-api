@@ -14,6 +14,7 @@ require 'webmock/rspec'
 require 'naver/searchad/api'
 require 'naver/searchad/api/core/base_service'
 require 'naver/searchad/api/auth'
+require 'naver/searchad/api/ad-keyword/service'
 require 'naver/searchad/api/adgroup/service'
 require 'naver/searchad/api/campaign/service'
 
