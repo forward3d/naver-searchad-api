@@ -55,6 +55,15 @@ module Naver
             # To be implemented by subclasses
           end
 
+          def validates_presence_of(fields, object)
+            fields.each do |key|
+              unless object.key?(key)
+                raise MissingRequiredAttributeError.new(
+                  "Require #{key} attribute in object")
+              end
+            end
+          end
+
           private
 
           def new_client

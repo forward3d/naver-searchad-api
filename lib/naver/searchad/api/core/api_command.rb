@@ -13,7 +13,8 @@ module Naver
           ERROR_CODE_MAPPING = {
             '1002' => Naver::Searchad::Api::InvalidRequestError,
             '1018' => Naver::Searchad::Api::NotEnoughPermissionError,
-            '3506' => Naver::Searchad::Api::CampaignAlreadyExistError,
+            '3506' => Naver::Searchad::Api::DuplicatedCampaignNameError,
+            '3710' => Naver::Searchad::Api::DuplicatedAdgroupNameError,
           }
 
           attr_accessor :request_object

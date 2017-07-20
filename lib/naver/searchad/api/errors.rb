@@ -29,27 +29,29 @@ module Naver
         end
       end # Error
 
-      class RedirectError < Error; end
+      RedirectError = Class.new(Error)
 
-      class AuthorizationError < Error; end
+      AuthorizationError = Class.new(Error)
 
-      class RequestError < Error; end
+      RequestError = Class.new(Error)
 
-      class RateLimitError < Error; end
+      RateLimitError = Class.new(Error)
 
-      class ServerError < Error; end
+      ServerError = Class.new(Error)
 
-      class UnknownError < Error; end
+      UnknownError = Class.new(Error)
 
-      class TransmissionError < Error; end
+      TransmissionError = Class.new(Error)
 
-      class NotEnoughPermissionError < Error; end
+      NotEnoughPermissionError = Class.new(RequestError)
 
-      class MissingRequiredAttributeError < RequestError; end
+      MissingRequiredAttributeError = Class.new(RequestError)
 
-      class InvalidRequestError < RequestError; end
+      InvalidRequestError = Class.new(RequestError)
 
-      class CampaignAlreadyExistError < RequestError; end
+      DuplicatedCampaignNameError = Class.new(RequestError)
+
+      DuplicatedAdgroupNameError = Class.new(RequestError)
     end
   end
 end
