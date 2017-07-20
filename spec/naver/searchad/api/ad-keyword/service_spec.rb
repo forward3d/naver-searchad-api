@@ -323,25 +323,133 @@ JSON
   end
 
   describe '#create_ad_keyword' do
+    let(:adgroup_id) { 'grp-a001-01-000000003865468' }
 
+    context 'when creating an ad keyword with only required attribute' do
+      let(:ad_keyword) { { 'keyword' => 'test-keyword-02' } }
+      before(:each) do
+        stub_request(:post, 'https://api.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
+          to_return(
+            status: 200,
+            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
+            body: <<-JSON
+[
+  {
+    "nccKeywordId":"nkw-a001-01-000000723635068",
+    "keyword":"TEST-KEYWORD-02",
+    "customerId":1077530,
+    "nccAdgroupId":"grp-a001-01-000000003865468",
+    "nccCampaignId":"cmp-a001-01-000000000652963",
+    "userLock":false,
+    "inspectStatus":"UNDER_REVIEW",
+    "bidAmt":70,
+    "useGroupBidAmt":true,
+    "regTm":"2017-07-19T17:31:32.000Z",
+    "editTm":"2017-07-19T17:31:32.000Z",
+    "status":"PAUSED",
+    "statusReason":"KEYWORD_UNDER_REVIEW",
+    "nccQi":{"qiGrade":4}
+  }
+]
+JSON
+        )
+      end
+
+      it 'should create an ad keyword filled with default values' do
+        expect { |b| this.create_ad_keywords([ad_keyword], adgroup_id, &b) }.
+          to yield_with_args(
+            [
+              OpenStruct.new(
+                ncc_keyword_id: 'nkw-a001-01-000000723635068',
+                keyword: 'TEST-KEYWORD-02',
+                customer_id: 1077530,
+                ncc_adgroup_id: 'grp-a001-01-000000003865468',
+                ncc_campaign_id: 'cmp-a001-01-000000000652963',
+                user_lock: false,
+                inspect_status: 'UNDER_REVIEW',
+                bid_amt: 70,
+                use_group_bid_amt: true,
+                reg_tm: '2017-07-19T17:31:32.000Z',
+                edit_tm: '2017-07-19T17:31:32.000Z',
+                status: 'PAUSED',
+                status_reason: 'KEYWORD_UNDER_REVIEW',
+                ncc_qi: {'qi_grade'=>4}
+              )
+            ], nil
+          )
+      end
+    end
+
+    context 'when missing required attribute in request object' do
+      let(:ad_keyword) { { } }
+
+      it { expect{ this.create_ad_keywords([ad_keyword], adgroup_id) }.to raise_error(MissingRequiredAttributeError) }
+    end
+
+    context 'when creating an ad keyword with all fields' do
+      let(:ad_keyword) {
+        {
+          'keyword' => 'test-keyword-03',
+          'bidAmt' => 110,
+          'useGroupBidAmt' => true,
+          'links' => "{\"pc\":{\"final\":\"http://yourdomain\"},\"mobile\":{\"final\":\"http://yourdomain\"}}",
+          'userLock' => true
+        }
+      }
+
+      it 'should create an ad keyword with given fields' do
+        WebMock.disable!
+        expect { |b| this.create_ad_keywords([ad_keyword], adgroup_id, &b) }.
+          to yield_with_args(
+            [
+              OpenStruct.new(
+                ncc_keyword_id: 'nkw-a001-01-000000723635068',
+                keyword: 'TEST-KEYWORD-03',
+                customer_id: 1077530,
+                ncc_adgroup_id: 'grp-a001-01-000000003865468',
+                ncc_campaign_id: 'cmp-a001-01-000000000652963',
+                user_lock: false,
+                inspect_status: 'UNDER_REVIEW',
+                bid_amt: 110,
+                use_group_bid_amt: true,
+                reg_tm: '2017-07-19T17:31:32.000Z',
+                edit_tm: '2017-07-19T17:31:32.000Z',
+                status: 'PAUSED',
+                status_reason: 'KEYWORD_UNDER_REVIEW',
+                ncc_qi: {'qi_grade'=>4}
+              )
+            ], nil
+          )
+      end
+    end
+
+    context 'when creating multiple items' do
+    end
+
+    context 'when creating an ad keyword with only required attribute' do
+    end
+
+    context 'when creating an ad keyword with existing keyword' do
+      #[{"keyword":"TEST-KEYWORD-02","customerId":1077530,"nccAdgroupId":"grp-a001-01-000000003865468","nccCampaignId":"cmp-a001-01-000000000652963","userLock":false,"inspectStatus":"UNDER_REVIEW","bidAmt":70,"useGroupBidAmt":true,"resultStatus":{"code":3908,"message":"This keyword is already available."}}]
+    end
   end
 
   describe '#update_ad_keyword' do
   end
 
-  describe '#delete_ad_keyword' do
-    context 'when all ok' do
-      let(:ad_keyword_id) { 'nkw-a001-01-000000723631063' }
-
-      before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000723631063').
-          to_return(status: 204)
-      end
-
-      it 'should delete the given ad keyword' do
-        expect { |b| this.delete_ad_keyword(ad_keyword_id, {}, &b) }.
-          to yield_with_args('', nil)
-      end
-    end
-  end
+#  describe '#delete_ad_keyword' do
+#    context 'when all ok' do
+#      let(:ad_keyword_id) { 'nkw-a001-01-000000723631063' }
+#
+#      before(:each) do
+#        stub_request(:delete, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000723631063').
+#          to_return(status: 204)
+#      end
+#
+#      it 'should delete the given ad keyword' do
+#        expect { |b| this.delete_ad_keyword(ad_keyword_id, {}, &b) }.
+#          to yield_with_args('', nil)
+#      end
+#    end
+  #end
 end
