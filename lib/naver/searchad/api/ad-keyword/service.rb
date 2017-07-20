@@ -41,8 +41,23 @@ module Naver
             execute_command(command, &block)
           end
 
-          def update_ad_keyword(ad_keyword, fields: nil, options: nil, &block)
+          def update_ad_keyword(ad_keyword, field: '', options: nil, &block)
+            validates_presence_of(%w[nccKeywordId nccAdgroupId], ad_keyword)
 
+            command = make_command(:put, 'keywords/{ad_keyword_id}', options)
+            command.params['ad_keyword_id'] = ad_keyword['nccKeywordId']
+            command.query['fields'] = field
+            command.request_object = ad_keyword
+            execute_command(command, &block)
+          end
+
+          def update_ad_keywords(ad_keywords, field: '', options: nil, &block)
+            ad_keywords.each { |kw| validates_presence_of(%w[nccKeywordId nccAdgroupId], kw) }
+
+            command = make_command(:put, 'keywords', options)
+            command.query['fields'] = field
+            command.request_object = ad_keywords
+            execute_command(command, &block)
           end
 
           def delete_ad_keyword(ad_keyword_id, options: nil, &block)
@@ -53,7 +68,7 @@ module Naver
 
           def delete_ad_keywords(ad_keyword_ids, options: nil, &block)
             command = make_command(:delete, 'keywords', options)
-            command.query['ids'] = ad_keyword_ids
+            command.query['ids'] = ad_keyword_ids.join(',')
             execute_command(command, &block)
           end
         end
