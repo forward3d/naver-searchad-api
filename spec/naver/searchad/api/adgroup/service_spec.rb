@@ -1978,8 +1978,7 @@ JSON
       end
 
       it 'should delete the given adgroup' do
-        expect { |b| this.delete_adgroup(adgroup_id, {}, &b) }.
-          to yield_with_args('', nil)
+        expect { |b| this.delete_adgroup(adgroup_id, &b) }.to yield_with_args('', nil)
       end
     end
 

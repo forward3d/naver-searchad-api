@@ -985,8 +985,7 @@ JSON
       end
 
       it 'should delete the given ad keyword' do
-        expect { |b| this.delete_ad_keyword(ad_keyword_id, {}, &b) }.
-          to yield_with_args('', nil)
+        expect { |b| this.delete_ad_keyword(ad_keyword_id, &b) }.to yield_with_args('', nil)
       end
     end
   end
@@ -1001,8 +1000,7 @@ JSON
       end
 
       it 'should delete the given ad keywords' do
-        expect { |b| this.delete_ad_keywords(ad_keyword_ids, {}, &b) }.
-          to yield_with_args('', nil)
+        expect { |b| this.delete_ad_keywords(ad_keyword_ids, &b) }.to yield_with_args('', nil)
       end
     end
   end
