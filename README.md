@@ -23,6 +23,15 @@ Or install it yourself as:
 
     $ gem install naver-searchad-api
 
+## Compatibility
+
+naver-searchad-api supports the following Ruby implementations:
+
+* MRI 2.0
+* MRI 2.1
+* MRI 2.2
+* MRI 2.3
+
 ## Usage
 
 ### Basic usage
@@ -108,11 +117,25 @@ The first is to provide a new logger instance:
 Naver::Searchad::Api.logger = Logger.new(STDERR)
 ```
 
-
 ## License
 
 This library is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE).
 
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/forward3d/naver-searchad-api. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
+We encourage contributors to follow [Bozhidar's ruby style guide](https://github.com/bbatsov/ruby-style-guide) in this project.
+
+Pull requests (with tests) are appreciated. Please help with:
+
+* Reporting bugs
+* Suggesting features
+* Writing or improving documentation
+* Fixing typos
+* Cleaning whitespace
+* Refactoring code
+* Adding tests
+
+If you report a bug and don't include a fix, please include a failing test.
+
