@@ -1,3 +1,5 @@
+require_relative '../core/base_service'
+
 module Naver
   module Searchad
     module Api

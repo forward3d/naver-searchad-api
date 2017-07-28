@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q(Naver Searchad API ruby client)
   spec.description   = %q(Naver Searchad API ruby client)
-  spec.homepage      = 'http://forward3d.com'
+  spec.homepage      = 'https://github.com/forward3d/naver-searchad-api'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
@@ -21,7 +21,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'representable', '~> 3.0'
   spec.add_runtime_dependency 'httpclient', '>= 2.8.1', '< 3.0'
   spec.add_runtime_dependency 'addressable', '~> 2.5'
 
