@@ -569,7 +569,6 @@ JSON
         let(:ad) {
           {
             'nccAdId' => 'nad-a001-01-000000015971701',
-            'adAttr' => {},
             'userLock' => true
           }
         }
@@ -599,7 +598,6 @@ JSON
         let(:ad) {
           {
             'nccAdId' => 'nad-a001-01-000000015971701',
-            'adAttr' => {},
             'inspectRequestMsg' => 'this is a inspect request message'
           }
         }
@@ -629,7 +627,6 @@ JSON
         let(:ad) {
           {
             'nccAdId' => 'nad-a001-01-000000015971701',
-            'adAttr' => {},
             'userLock' => false,
             'inspectRequestMsg' => ''
           }
