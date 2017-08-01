@@ -37,7 +37,7 @@ module Naver
           end
 
           def update_ad(ad, field: '', options: nil, &block)
-            validates_presence_of(%w[nccAdId adAttr], ad)
+            validates_presence_of(%w[nccAdId], ad)
 
             command = make_command(:put, 'ads/{ad_id}', options)
             command.params['ad_id'] = ad['nccAdId']
