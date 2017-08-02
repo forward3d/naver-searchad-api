@@ -10,13 +10,13 @@ module Naver
             super('https://api.naver.com/', 'ncc/')
           end
 
-          def list(ad_ids, options: nil, &block)
+          def list_ads(ad_ids, options: nil, &block)
             command = make_command(:get, 'ads', options)
             command.query['ids'] = ad_ids.join(',')
             execute_command(command, &block)
           end
 
-          def list_by_adgroup_id(adgroup_id, options: nil, &block)
+          def list_ads_by_adgroup_id(adgroup_id, options: nil, &block)
             command = make_command(:get, 'ads', options)
             command.query['nccAdgroupId'] = adgroup_id
             execute_command(command, &block)
