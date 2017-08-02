@@ -8,7 +8,7 @@ describe Ad::Service do
     this.authorization = Auth.get_application_default
   end
 
-  describe '#list' do
+  describe '#list_ads' do
     context 'when requesting some' do
       let(:ad_ids) { ['nad-a001-01-000000015970482', 'nad-a001-01-000000015970494'] }
       before(:each) do
@@ -82,7 +82,7 @@ JSON
       end
 
       it 'should return requested ads' do
-        expect { |b| this.list(ad_ids, &b) }.to yield_with_args([
+        expect { |b| this.list_ads(ad_ids, &b) }.to yield_with_args([
           OpenStruct.new(
             ncc_ad_id: 'nad-a001-01-000000015970482',
             ncc_adgroup_id: 'grp-a001-01-000000003865468',
@@ -146,7 +146,7 @@ JSON
     end
   end
 
-  describe '#list_by_adgroup_id' do
+  describe '#list_ads_by_adgroup_id' do
     context 'when all ok' do
       let(:adgroup_id) { 'grp-a001-01-000000003865468' }
       before(:each) do
@@ -220,7 +220,7 @@ JSON
       end
 
       it 'should return an array of relevant ads' do
-        expect { |b| this.list_by_adgroup_id(adgroup_id, &b) }.to yield_with_args([
+        expect { |b| this.list_ads_by_adgroup_id(adgroup_id, &b) }.to yield_with_args([
           OpenStruct.new(
             ncc_ad_id: 'nad-a001-01-000000015970494',
             ncc_adgroup_id: 'grp-a001-01-000000003865468',
