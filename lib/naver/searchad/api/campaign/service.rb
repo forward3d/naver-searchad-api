@@ -11,7 +11,7 @@ module Naver
           end
 
           def list_campaigns(options: nil, &block)
-            command = make_command(:get, 'campaigns/', options)
+            command = make_command(:get, 'campaigns', options)
             execute_command(command, &block)
           end
 

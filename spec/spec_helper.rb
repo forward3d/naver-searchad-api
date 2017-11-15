@@ -19,6 +19,8 @@ require 'naver/searchad/api/ad-keyword/service'
 require 'naver/searchad/api/adgroup/service'
 require 'naver/searchad/api/campaign/service'
 
+Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
+
 ENV['NAVER_API_KEY'] = 'test_api_key'
 ENV['NAVER_API_SECRET'] = 'test_api_key_secret'
 ENV['NAVER_API_CLIENT_ID'] = '11121212121'

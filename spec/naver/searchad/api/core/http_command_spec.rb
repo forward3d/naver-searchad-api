@@ -58,7 +58,9 @@ describe Core::HttpCommand do
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(RequestError) }
+          let(:request) { execute }
+
+          it_behaves_like 'error in request'
         end
       end
 
@@ -82,7 +84,9 @@ describe Core::HttpCommand do
         end
 
         context 'without block' do
-          it { expect{ execute }.to raise_error(RequestError) }
+          let(:request) { execute }
+
+          it_behaves_like 'error in request'
         end
       end
 
@@ -128,7 +132,9 @@ describe Core::HttpCommand do
             to_raise(HTTPClient::BadResponseError.new('', double('http_res', status: 404, header: {}, body: '')))
         end
 
-        it { expect{ execute }.to raise_error(RequestError) }
+        let(:request) { execute }
+
+        it_behaves_like 'error in request'
       end
 
       context 'with HTTPClient::TimeoutError' do

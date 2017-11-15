@@ -193,8 +193,9 @@ JSON
             )
       end
       let(:adgroup_ids) { ['none-existing'] }
+      let(:request) { this.list_adgroups_by_ids(adgroup_ids) }
 
-      it { expect{ this.list_adgroups_by_ids(adgroup_ids) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 
@@ -383,8 +384,9 @@ JSON
             )
       end
       let(:campaign_ids) { ['none-existing'] }
+      let(:request) { this.list_adgroups_by_campaign_id(campaign_ids) }
 
-      it { expect{ this.list_adgroups_by_campaign_id(campaign_ids) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 
@@ -573,8 +575,9 @@ JSON
             )
       end
       let(:label_id) { 'none-existing' }
+      let(:request) { this.list_adgroups_by_label_id(label_id) }
 
-      it { expect{ this.list_adgroups_by_label_id(label_id) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 
@@ -789,8 +792,9 @@ JSON
             )
       end
       let(:adgroup_id) { 'none-existing' }
+      let(:request) { this.get_adgroup(adgroup_id) }
 
-      it {  expect{ this.get_adgroup(adgroup_id) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 
@@ -1998,8 +2002,9 @@ JSON
 JSON
             )
       end
+      let(:request) { this.delete_adgroup(adgroup_id) }
 
-      it { expect{ this.delete_adgroup(adgroup_id) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 end

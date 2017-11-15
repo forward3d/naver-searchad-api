@@ -11,7 +11,7 @@ describe Core::ApiCommand do
     subject(:prepare) { this.prepare! }
 
     context 'when request_object is not given' do
-      it 'should send empty header and body' do
+      it 'sends empty header and body' do
         prepare
         expect(this.header).to eq({})
         expect(this.body).to eq('')
@@ -26,7 +26,7 @@ describe Core::ApiCommand do
       context 'with json string' do
         let(:request_object) { { foo: 'bar' } }
 
-        it 'should send application/json content type header and json body' do
+        it 'sends application/json content type header and json body' do
           prepare
           expect(this.header).to eq({'Content-Type' => 'application/json'})
           expect(this.body).to eq('{"foo":"bar"}')
@@ -65,8 +65,9 @@ describe Core::ApiCommand do
 
     context 'Naver request related api returned' do
       let(:body) { '{"code":1018,"status":404,"title":"No permission to access the resource."}' }
+      let(:request) { check_status }
 
-      it { expect{ check_status }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 
@@ -82,7 +83,7 @@ describe Core::ApiCommand do
         stub_request(:post, url).to_return(status: [200, ''], body: 'post_success')
       end
 
-      it 'should send json content type in header and serialized body' do
+      it 'sends json content type in header and serialized body' do
         execute
         expect(a_request(:post, url).
             with(headers: { 'Content-Type' => 'application/json' },
@@ -99,7 +100,7 @@ describe Core::ApiCommand do
                     body: '{"foo":"bar"}')
       end
 
-      it 'should return decoded body' do
+      it 'returns decoded body' do
         expect(execute).to eq(OpenStruct.new('foo' => 'bar'))
       end
     end
@@ -111,7 +112,7 @@ describe Core::ApiCommand do
                     body: '{"code":429,"status":429,"title":"Cannot handle the request. Too many requests already exist."}')
       end
 
-      it 'should raise RateLimitError' do
+      it 'raises RateLimitError' do
         expect{ execute }.to raise_error(RateLimitError)
       end
     end
@@ -123,9 +124,9 @@ describe Core::ApiCommand do
                     body: '{"code":1018,"status":404,"title":"No permission to access the resource."}')
       end
 
-      it 'should raise NotEnoughPermissionError' do
-        expect{ execute }.to raise_error(NotEnoughPermissionError)
-      end
+      let(:request) { execute }
+
+      it_behaves_like 'not enough permission request'
     end
   end
 end
