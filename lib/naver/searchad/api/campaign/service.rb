@@ -10,6 +10,11 @@ module Naver
             super('https://api.naver.com/', 'ncc/')
           end
 
+          def list_campaigns(options: nil, &block)
+            command = make_command(:get, 'campaigns', options)
+            execute_command(command, &block)
+          end
+
           def list_campaigns_by_ids(campaign_ids, options: nil, &block)
             command = make_command(:get, 'campaigns/', options)
             command.query['ids'] = campaign_ids.join(',')

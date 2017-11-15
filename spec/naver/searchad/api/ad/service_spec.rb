@@ -646,7 +646,9 @@ JSON
             )
         end
 
-        it { expect{ this.update_ad(ad) }.to raise_error(InvalidRequestError) }
+        let(:request) { this.update_ad(ad) }
+
+        it_behaves_like 'invalid request'
       end
     end
 

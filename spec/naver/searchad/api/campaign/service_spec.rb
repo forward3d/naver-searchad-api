@@ -94,7 +94,9 @@ JSON
               )
       end
 
-      it { expect { create_campaign }.to raise_error(RequestError) }
+      let(:request) { create_campaign }
+
+      it_behaves_like 'error in request'
     end
 
     context 'when invalid api key is given' do
@@ -116,7 +118,9 @@ JSON
               )
       end
 
-      it { expect { create_campaign }.to raise_error(RequestError) }
+      let(:request) { create_campaign }
+
+      it_behaves_like 'error in request'
     end
 
     context 'when invalid api secret is given' do
@@ -138,7 +142,9 @@ JSON
               )
       end
 
-      it { expect { create_campaign }.to raise_error(RequestError) }
+      let(:request) { create_campaign }
+
+      it_behaves_like 'error in request'
     end
 
     context 'when invalid client id in authorization is given' do
@@ -161,7 +167,9 @@ JSON
               )
       end
 
-      it { expect { create_campaign }.to raise_error(RequestError) }
+      let(:request) { create_campaign }
+
+      it_behaves_like 'error in request'
     end
 
     context 'when creating a campaign with existing name' do
@@ -309,8 +317,108 @@ JSON
             )
       end
       let(:campaign_ids) { ['none-existing'] }
+      let(:request) { this.list_campaigns_by_ids(campaign_ids) }
 
-      it { expect{ this.list_campaigns_by_ids(campaign_ids) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
+    end
+  end
+
+  describe '#list_campaigns' do
+    context 'when requesting camapgins' do
+      before(:each) do
+        stub_request(:get, 'https://api.naver.com/ncc/campaigns').
+          to_return(
+            status: 200,
+            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
+            body: <<-JSON
+[
+  {
+    "nccCampaignId":"cmp-a001-01-000000000652963",
+    "customerId":113131,
+    "name":"test-00",
+    "userLock":false,
+    "campaignTp":"WEB_SITE",
+    "deliveryMethod":"ACCELERATED",
+    "trackingMode":"TRACKING_DISABLED",
+    "delFlag":false,
+    "regTm":"2017-07-17T09:54:34.000Z",
+    "editTm":"2017-07-17T09:54:34.000Z",
+    "usePeriod":false,
+    "dailyBudget":0,
+    "useDailyBudget":false,
+    "status":"ELIGIBLE",
+    "statusReason":"ELIGIBLE",
+    "expectCost":0,
+    "migType":0
+  },
+  {
+    "nccCampaignId":"cmp-a001-01-000000000653273",
+    "customerId":113131,
+    "name":"test-01",
+    "userLock":false,
+    "campaignTp":"WEB_SITE",
+    "deliveryMethod":"ACCELERATED",
+    "trackingMode":"TRACKING_DISABLED",
+    "delFlag":false,
+    "regTm":"2017-07-17T17:13:51.000Z",
+    "editTm":"2017-07-17T17:13:51.000Z",
+    "usePeriod":false,
+    "dailyBudget":0,
+    "useDailyBudget":false,
+    "status":"ELIGIBLE",
+    "statusReason":"ELIGIBLE",
+    "expectCost":0,
+    "migType":0
+  }
+]
+JSON
+            )
+      end
+      let(:campaign_ids) { ['cmp-a001-01-000000000652963', 'cmp-a001-01-000000000653273'] }
+
+      it 'should return an array of relevant campaign items' do
+        expect { |b| this.list_campaigns(&b) }.
+          to yield_with_args([
+            OpenStruct.new(
+              ncc_campaign_id: 'cmp-a001-01-000000000652963',
+              customer_id: 113131,
+              name: 'test-00',
+              user_lock: false,
+              campaign_tp: 'WEB_SITE',
+              delivery_method: 'ACCELERATED',
+              tracking_mode: 'TRACKING_DISABLED',
+              del_flag: false,
+              reg_tm: '2017-07-17T09:54:34.000Z',
+              edit_tm: '2017-07-17T09:54:34.000Z',
+              use_period: false,
+              daily_budget: 0,
+              use_daily_budget: false,
+              status: 'ELIGIBLE',
+              status_reason: 'ELIGIBLE',
+              expect_cost: 0,
+              mig_type: 0
+            ),
+            OpenStruct.new(
+              ncc_campaign_id: 'cmp-a001-01-000000000653273',
+              customer_id: 113131,
+              name: 'test-01',
+              user_lock: false,
+              campaign_tp: 'WEB_SITE',
+              delivery_method: 'ACCELERATED',
+              tracking_mode: 'TRACKING_DISABLED',
+              del_flag: false,
+              reg_tm: '2017-07-17T17:13:51.000Z',
+              edit_tm: '2017-07-17T17:13:51.000Z',
+              use_period: false,
+              daily_budget: 0,
+              use_daily_budget: false,
+              status: 'ELIGIBLE',
+              status_reason: 'ELIGIBLE',
+              expect_cost: 0,
+              mig_type: 0
+            )
+          ], nil)
+      end
     end
   end
 
@@ -386,8 +494,9 @@ JSON
             )
       end
       let(:campaign_id) { 'none-existing' }
+      let(:request) { this.get_campaign(campaign_id) }
 
-      it { expect{ this.get_campaign(campaign_id) }.to raise_error(NotEnoughPermissionError) }
+      it_behaves_like 'not enough permission request'
     end
   end
 
@@ -584,7 +693,9 @@ JSON
             )
       end
 
-      it { expect{ this.update_campaign(campaign, field: field) }.to raise_error(NotEnoughPermissionError) }
+      let(:request) { this.update_campaign(campaign, field: field) }
+
+      it_behaves_like 'not enough permission request'
     end
 
     context 'when invalid field is given' do
@@ -610,7 +721,9 @@ JSON
             )
       end
 
-      it { expect{ this.update_campaign(campaign, field: field) }.to raise_error(InvalidRequestError) }
+      let(:request) { this.update_campaign(campaign, field: field) }
+
+      it_behaves_like 'invalid request'
     end
     #
   end
@@ -647,7 +760,9 @@ JSON
             )
       end
 
-      it { expect{ this.delete_campaign(campaign_id) }.to raise_error(NotEnoughPermissionError) }
+      let(:request) { this.delete_campaign(campaign_id) }
+
+      it_behaves_like 'not enough permission request'
     end
   end
 end
