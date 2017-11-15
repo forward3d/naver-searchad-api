@@ -40,6 +40,7 @@ To use an API, instantiate the service. For example to use the Campaign API:
 
 ```ruby
 require 'naver/searchad/api/campaign/service'
+require 'naver/searchad/api/auth'
 
 Campaign = Naver::Searchad::Api::Campaign # Alias the module
 campaign = Campaign::Service.new
