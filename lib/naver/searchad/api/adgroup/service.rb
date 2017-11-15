@@ -10,6 +10,11 @@ module Naver
             super('https://api.naver.com/', 'ncc/')
           end
 
+          def list_adgroups(options: nil, &block)
+            command = make_command(:get, 'adgroups', options)
+            execute_command(command, &block)
+          end
+
           def list_adgroups_by_ids(adgroup_ids, options: nil, &block)
             command = make_command(:get, 'adgroups', options)
             command.query['ids'] = adgroup_ids.join(',')
