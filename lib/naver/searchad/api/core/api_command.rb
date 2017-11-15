@@ -18,6 +18,13 @@ module Naver
           }
 
           attr_accessor :request_object
+          attr_accessor :decode_snake_case
+
+          def initialize(method, url, body: nil, decode_snake_case: true)
+            super(method, url, body: body)
+
+            @decode_snake_case = decode_snake_case
+          end
 
           def prepare!
             if request_object
@@ -32,7 +39,7 @@ module Naver
             return nil unless content_type.start_with?(JSON_CONTENT_TYPE)
 
             decoded_response = JSON.parse(body)
-            deep_snake_case_params!(decoded_response)
+            deep_snake_case_params!(decoded_response) if @decode_snake_case
             if decoded_response.kind_of?(Hash)
               OpenStruct.new(decoded_response)
             elsif decoded_response.kind_of?(Array)
