@@ -10,93 +10,9 @@ describe Adgroup::Service do
 
   describe '#list_adgroups' do
     context 'when requesting more than one' do
-      before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups').
-          to_return(
-            status: 200,
-            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
-            body: <<-JSON
-[
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853231",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-00",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:31:02.000Z",
-    "editTm":"2017-07-18T16:31:02.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  },
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853237",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-01",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:37:59.000Z",
-    "editTm":"2017-07-18T16:37:59.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  }
-]
-JSON
-        )
-      end
+      include_context 'request is for adgroup list response'
+
+      let(:url) { 'https://api.naver.com/ncc/adgroups' }
 
       it 'should return an array of relevant adgroup items' do
         expect { |b| this.list_adgroups(&b) }.
@@ -180,93 +96,9 @@ JSON
 
   describe '#list_adgroups_by_ids' do
     context 'when requesting more than one' do
-      before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups?ids=grp-a001-01-000000003853231,grp-a001-01-000000003853237').
-          to_return(
-            status: 200,
-            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
-            body: <<-JSON
-[
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853231",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-00",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:31:02.000Z",
-    "editTm":"2017-07-18T16:31:02.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  },
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853237",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-01",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:37:59.000Z",
-    "editTm":"2017-07-18T16:37:59.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  }
-]
-JSON
-        )
-      end
+      include_context 'request is for adgroup list response'
+
+      let(:url) { "https://api.naver.com/ncc/adgroups?ids=#{adgroup_ids.join(',')}" }
       let(:adgroup_ids) { %w[grp-a001-01-000000003853231 grp-a001-01-000000003853237] }
 
       it 'should return an array of relevant adgroup items' do
@@ -371,99 +203,15 @@ JSON
 
   describe '#list_adgroups_by_campaign_id' do
     context 'when all ok' do
-      before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups?nccCampaignId=cmp-a001-01-000000000652963').
-          to_return(
-            status: 200,
-            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
-            body: <<-JSON
-[
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853231",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-00",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:31:02.000Z",
-    "editTm":"2017-07-18T16:31:02.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  },
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853237",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-01",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:37:59.000Z",
-    "editTm":"2017-07-18T16:37:59.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  }
-]
-JSON
-        )
-      end
+      include_context 'request is for adgroup list response'
+
+      let(:url) { 'https://api.naver.com/ncc/adgroups?nccCampaignId=cmp-a001-01-000000000652963' }
       let(:campaign_id) { 'cmp-a001-01-000000000652963' }
 
       it 'should return an array of relevant adgroup items' do
         expect { |b| this.list_adgroups_by_campaign_id(campaign_id, &b) }.
           to yield_with_args([
-             OpenStruct.new(
+            OpenStruct.new(
               ncc_adgroup_id: "grp-a001-01-000000003853231",
               customer_id: 1077530,
               ncc_campaign_id: "cmp-a001-01-000000000652963",
@@ -562,93 +310,9 @@ JSON
 
   describe '#list_adgroups_by_label_id' do
     context 'when all ok' do
-      before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups?nccLabelId=working_label_id').
-          to_return(
-            status: 200,
-            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
-            body: <<-JSON
-[
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853231",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-00",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:31:02.000Z",
-    "editTm":"2017-07-18T16:31:02.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  },
-  {
-    "nccAdgroupId":"grp-a001-01-000000003853237",
-    "customerId":1077530,
-    "nccCampaignId":"cmp-a001-01-000000000652963",
-    "mobileChannelId":"bsn-a001-00-000000000043392",
-    "pcChannelId":"bsn-a001-00-000000000043392",
-    "bidAmt":70,
-    "name":"test-ad-group-01",
-    "userLock":false,
-    "useDailyBudget":false,
-    "useKeywordPlus":false,
-    "keywordPlusWeight":100,
-    "contentsNetworkBidAmt":70,
-    "useCntsNetworkBidAmt":false,
-    "mobileNetworkBidWeight":100,
-    "pcNetworkBidWeight":100,
-    "dailyBudget":0,
-    "budgetLock":false,
-    "delFlag":false,
-    "regTm":"2017-07-18T16:37:59.000Z",
-    "editTm":"2017-07-18T16:37:59.000Z",
-    "targetSummary":{
-      "week":"all",
-      "pcMobile":"all",
-      "media":"all",
-      "time":"all",
-      "region":"all"
-    },
-    "pcChannelKey":"http://www.mymemodel.com",
-    "mobileChannelKey":"http://www.mymemodel.com",
-    "status":"PAUSED",
-    "statusReason":"CAMPAIGN_PENDING",
-    "expectCost":0,
-    "migType":0,
-    "adgroupAttrJson":{
-      "campaignTp":1
-    }
-  }
-]
-JSON
-        )
-      end
+      include_context 'request is for adgroup list response'
+
+      let(:url) { 'https://api.naver.com/ncc/adgroups?nccLabelId=working_label_id' }
       let(:label_id) { 'working_label_id' }
 
       it 'should return an array of relevant adgroup items' do
@@ -753,104 +417,9 @@ JSON
 
   describe '#get_adgroup' do
     context 'when all ok' do
-      before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003853231').
-          to_return(
-            status: 200,
-            headers: {'Content-Type' => 'application/json;charset=UTF-8'},
-            body: <<-JSON
-{
-  "nccAdgroupId":"grp-a001-01-000000003853231",
-  "customerId":1077530,
-  "nccCampaignId":"cmp-a001-01-000000000652963",
-  "mobileChannelId":"bsn-a001-00-000000000043392",
-  "pcChannelId":"bsn-a001-00-000000000043392",
-  "bidAmt":70,
-  "name":"test-ad-group-00",
-  "userLock":false,
-  "useDailyBudget":false,
-  "useKeywordPlus":false,
-  "keywordPlusWeight":100,
-  "contentsNetworkBidAmt":70,
-  "useCntsNetworkBidAmt":false,
-  "mobileNetworkBidWeight":100,
-  "pcNetworkBidWeight":100,
-  "dailyBudget":0,
-  "budgetLock":false,
-  "delFlag":false,
-  "regTm":"2017-07-18T16:31:02.000Z",
-  "editTm":"2017-07-18T16:31:02.000Z",
-  "targets":[
-    {
-      "nccTargetId":"tgt-a001-01-000000031612670",
-      "ownerId":"grp-a001-01-000000003853231",
-      "targetTp":"TIME_WEEKLY_TARGET",
-      "target":null,
-      "delFlag":false,
-      "regTm":"2017-07-18T16:31:02.000Z",
-      "editTm":"2017-07-18T16:31:02.000Z"
-    },
-    {
-      "nccTargetId":"tgt-a001-01-000000031612671",
-      "ownerId":"grp-a001-01-000000003853231",
-      "targetTp":"REGIONAL_TARGET",
-      "target":null,
-      "delFlag":false,
-      "regTm":"2017-07-18T16:31:02.000Z",
-      "editTm":"2017-07-18T16:31:02.000Z"
-    },
-    {
-      "nccTargetId":"tgt-a001-01-000000031612672",
-      "ownerId":"grp-a001-01-000000003853231",
-      "targetTp":"MEDIA_TARGET",
-      "target":{
-        "type":1,
-        "search":[],
-        "contents":[],
-        "white":{
-          "media":null,
-          "mediaGroup":null
-        },
-        "black":{
-          "media":null,
-          "mediaGroup":null
-        }
-      },
-      "delFlag":false,
-      "regTm":"2017-07-18T16:31:02.000Z",
-      "editTm":"2017-07-18T16:31:02.000Z"
-    },
-    {
-      "nccTargetId":"tgt-a001-01-000000031612673",
-      "ownerId":"grp-a001-01-000000003853231",
-      "targetTp":"PC_MOBILE_TARGET",
-      "target":{
-        "pc":true,
-        "mobile":true
-      },
-      "delFlag":false,
-      "regTm":"2017-07-18T16:31:02.000Z",
-      "editTm":"2017-07-18T16:31:02.000Z"
-    }
-  ],
-  "targetSummary":{
-    "week":"all",
-    "pcMobile":"all",
-    "media":"all",
-    "time":"all",
-    "region":"all"
-  },
-  "pcChannelKey":"http://www.mymemodel.com",
-  "mobileChannelKey":"http://www.mymemodel.com",
-  "status":"PAUSED",
-  "statusReason":"CAMPAIGN_PENDING",
-  "expectCost":0,
-  "migType":0,
-  "adgroupAttrJson":{"campaignTp":1}
-}
-JSON
-        )
-      end
+      include_context 'request is for a single adgroup response'
+
+      let(:url) { 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003853231' }
       let(:adgroup_id) { 'grp-a001-01-000000003853231' }
 
       it 'should return relevant adgroup item' do
@@ -1793,6 +1362,7 @@ JSON
             ]
           }
         }
+
         before(:each) do
           stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetMedia').
             to_return(
