@@ -4,16 +4,6 @@ module Naver
   module Searchad
     module Api
       module Stat
-        module DatePreset
-          TODAY = 'today'.freeze
-          YESTERDAY = 'yesterday'.freeze
-          LAST_7_DAYS = 'last7days'.freeze
-          LAST_30_DAYS = 'last30days'.freeze
-          WEEK = 'lastweek'.freeze
-          LAST_MOMTH = 'lastmonth'.freeze
-          LAST_QUARTER = 'lastquarter'.freeze
-        end
-
         class Service < Naver::Searchad::Api::Core::BaseService
 
           def initialize
