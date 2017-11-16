@@ -46,6 +46,11 @@ Campaign = Naver::Searchad::Api::Campaign # Alias the module
 campaign = Campaign::Service.new
 campaign.authorization = Naver::Searchad::Api::Auth.get_application_default # See Below Authorization
 
+# Read all campaigns (with camelCase response)
+campaign.list_campaigns(options: { decode_snake_case: false }) do |res, err|
+  puts res
+end
+
 # Read campaigns by ids
 campaign.list_campaigns_by_ids(['campaign_id_1', 'campaign_id_2']) do |res, err|
   puts res

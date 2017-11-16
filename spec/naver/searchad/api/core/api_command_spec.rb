@@ -58,6 +58,26 @@ describe Core::ApiCommand do
 
       it { expect(decode_response_body).to eq(OpenStruct.new('foo' => 'bar')) }
     end
+
+    context 'when decode_snake_case is true' do
+      let(:content_type) { 'application/json' }
+      let(:body) { '{"FooFoo":"BarBar"}' }
+      before(:each) do
+        this.decode_snake_case = true
+      end
+
+      it { expect(decode_response_body).to eq(OpenStruct.new('foo_foo' => 'BarBar')) }
+    end
+
+    context 'when decode_snake_case is false' do
+      let(:content_type) { 'application/json' }
+      let(:body) { '{"FooFoo":"BarBar"}' }
+      before(:each) do
+        this.decode_snake_case = false
+      end
+
+      it { expect(decode_response_body).to eq(OpenStruct.new('FooFoo' => 'BarBar')) }
+    end
   end
 
   describe 'check_status' do

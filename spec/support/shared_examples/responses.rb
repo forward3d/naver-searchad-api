@@ -1,0 +1,190 @@
+RSpec.shared_context 'request is for adgroup list response' do
+  before(:each) do
+    stub_request(:get, url).
+      to_return(
+        status: 200,
+        headers: {'Content-Type' => 'application/json;charset=UTF-8'},
+        body: <<-JSON
+[
+  {
+    "nccAdgroupId":"grp-a001-01-000000003853231",
+    "customerId":1077530,
+    "nccCampaignId":"cmp-a001-01-000000000652963",
+    "mobileChannelId":"bsn-a001-00-000000000043392",
+    "pcChannelId":"bsn-a001-00-000000000043392",
+    "bidAmt":70,
+    "name":"test-ad-group-00",
+    "userLock":false,
+    "useDailyBudget":false,
+    "useKeywordPlus":false,
+    "keywordPlusWeight":100,
+    "contentsNetworkBidAmt":70,
+    "useCntsNetworkBidAmt":false,
+    "mobileNetworkBidWeight":100,
+    "pcNetworkBidWeight":100,
+    "dailyBudget":0,
+    "budgetLock":false,
+    "delFlag":false,
+    "regTm":"2017-07-18T16:31:02.000Z",
+    "editTm":"2017-07-18T16:31:02.000Z",
+    "targetSummary":{
+      "week":"all",
+      "pcMobile":"all",
+      "media":"all",
+      "time":"all",
+      "region":"all"
+    },
+    "pcChannelKey":"http://www.mymemodel.com",
+    "mobileChannelKey":"http://www.mymemodel.com",
+    "status":"PAUSED",
+    "statusReason":"CAMPAIGN_PENDING",
+    "expectCost":0,
+    "migType":0,
+    "adgroupAttrJson":{
+      "campaignTp":1
+    }
+  },
+  {
+    "nccAdgroupId":"grp-a001-01-000000003853237",
+    "customerId":1077530,
+    "nccCampaignId":"cmp-a001-01-000000000652963",
+    "mobileChannelId":"bsn-a001-00-000000000043392",
+    "pcChannelId":"bsn-a001-00-000000000043392",
+    "bidAmt":70,
+    "name":"test-ad-group-01",
+    "userLock":false,
+    "useDailyBudget":false,
+    "useKeywordPlus":false,
+    "keywordPlusWeight":100,
+    "contentsNetworkBidAmt":70,
+    "useCntsNetworkBidAmt":false,
+    "mobileNetworkBidWeight":100,
+    "pcNetworkBidWeight":100,
+    "dailyBudget":0,
+    "budgetLock":false,
+    "delFlag":false,
+    "regTm":"2017-07-18T16:37:59.000Z",
+    "editTm":"2017-07-18T16:37:59.000Z",
+    "targetSummary":{
+      "week":"all",
+      "pcMobile":"all",
+      "media":"all",
+      "time":"all",
+      "region":"all"
+    },
+    "pcChannelKey":"http://www.mymemodel.com",
+    "mobileChannelKey":"http://www.mymemodel.com",
+    "status":"PAUSED",
+    "statusReason":"CAMPAIGN_PENDING",
+    "expectCost":0,
+    "migType":0,
+    "adgroupAttrJson":{
+      "campaignTp":1
+    }
+  }
+]
+JSON
+    )
+  end
+end
+
+RSpec.shared_context 'request is for a single adgroup response' do
+  before(:each) do
+    stub_request(:get, url).
+      to_return(
+        status: 200,
+        headers: {'Content-Type' => 'application/json;charset=UTF-8'},
+        body: <<-JSON
+{
+  "nccAdgroupId":"grp-a001-01-000000003853231",
+  "customerId":1077530,
+  "nccCampaignId":"cmp-a001-01-000000000652963",
+  "mobileChannelId":"bsn-a001-00-000000000043392",
+  "pcChannelId":"bsn-a001-00-000000000043392",
+  "bidAmt":70,
+  "name":"test-ad-group-00",
+  "userLock":false,
+  "useDailyBudget":false,
+  "useKeywordPlus":false,
+  "keywordPlusWeight":100,
+  "contentsNetworkBidAmt":70,
+  "useCntsNetworkBidAmt":false,
+  "mobileNetworkBidWeight":100,
+  "pcNetworkBidWeight":100,
+  "dailyBudget":0,
+  "budgetLock":false,
+  "delFlag":false,
+  "regTm":"2017-07-18T16:31:02.000Z",
+  "editTm":"2017-07-18T16:31:02.000Z",
+  "targets":[
+    {
+      "nccTargetId":"tgt-a001-01-000000031612670",
+      "ownerId":"grp-a001-01-000000003853231",
+      "targetTp":"TIME_WEEKLY_TARGET",
+      "target":null,
+      "delFlag":false,
+      "regTm":"2017-07-18T16:31:02.000Z",
+      "editTm":"2017-07-18T16:31:02.000Z"
+    },
+    {
+      "nccTargetId":"tgt-a001-01-000000031612671",
+      "ownerId":"grp-a001-01-000000003853231",
+      "targetTp":"REGIONAL_TARGET",
+      "target":null,
+      "delFlag":false,
+      "regTm":"2017-07-18T16:31:02.000Z",
+      "editTm":"2017-07-18T16:31:02.000Z"
+    },
+    {
+      "nccTargetId":"tgt-a001-01-000000031612672",
+      "ownerId":"grp-a001-01-000000003853231",
+      "targetTp":"MEDIA_TARGET",
+      "target":{
+        "type":1,
+        "search":[],
+        "contents":[],
+        "white":{
+          "media":null,
+          "mediaGroup":null
+        },
+        "black":{
+          "media":null,
+          "mediaGroup":null
+        }
+      },
+      "delFlag":false,
+      "regTm":"2017-07-18T16:31:02.000Z",
+      "editTm":"2017-07-18T16:31:02.000Z"
+    },
+    {
+      "nccTargetId":"tgt-a001-01-000000031612673",
+      "ownerId":"grp-a001-01-000000003853231",
+      "targetTp":"PC_MOBILE_TARGET",
+      "target":{
+        "pc":true,
+        "mobile":true
+      },
+      "delFlag":false,
+      "regTm":"2017-07-18T16:31:02.000Z",
+      "editTm":"2017-07-18T16:31:02.000Z"
+    }
+  ],
+  "targetSummary":{
+    "week":"all",
+    "pcMobile":"all",
+    "media":"all",
+    "time":"all",
+    "region":"all"
+  },
+  "pcChannelKey":"http://www.mymemodel.com",
+  "mobileChannelKey":"http://www.mymemodel.com",
+  "status":"PAUSED",
+  "statusReason":"CAMPAIGN_PENDING",
+  "expectCost":0,
+  "migType":0,
+  "adgroupAttrJson":{"campaignTp":1}
+}
+JSON
+    )
+  end
+end

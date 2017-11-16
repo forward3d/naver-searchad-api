@@ -17,7 +17,10 @@ require 'naver/searchad/api/auth'
 require 'naver/searchad/api/ad/service'
 require 'naver/searchad/api/ad-keyword/service'
 require 'naver/searchad/api/adgroup/service'
+require 'naver/searchad/api/business-channel/service'
 require 'naver/searchad/api/campaign/service'
+require 'naver/searchad/api/label/service'
+require 'naver/searchad/api/related-keyword-stat/service'
 
 Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
 

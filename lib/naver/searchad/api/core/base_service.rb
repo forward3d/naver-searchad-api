@@ -42,6 +42,7 @@ module Naver
           def make_command(method, path, options = {})
             template = Addressable::Template.new(url + base_path + path)
             command = ApiCommand.new(method, template)
+            command.decode_snake_case = options.fetch(:decode_snake_case, true) if options
             command.options = request_options.merge(options)
             apply_command_defaults(command)
             command

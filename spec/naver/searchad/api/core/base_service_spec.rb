@@ -144,5 +144,33 @@ describe Core::BaseService do
         end.to yield_with_args(OpenStruct.new('result' => 'ok'), nil)
       end
     end
+
+    context 'when executing a decode_snake_case option false' do
+      before(:each) do
+        stub_request(:get, 'http://forward3d.com/foo/bar').
+          to_return(headers: { content_type: 'application/json' }, body: '{"FooFoo": "bar"}')
+      end
+
+      it 'should decode camel case keys to snake case' do
+        expect do |b|
+          command = this.send(:make_command, :get, 'foo/bar', { decode_snake_case: false })
+          this.send(:execute_command, command, &b)
+        end.to yield_with_args(OpenStruct.new('FooFoo' => 'bar'), nil)
+      end
+    end
+
+    context 'when executing without decode_snake_case option' do
+      before(:each) do
+        stub_request(:get, 'http://forward3d.com/foo/bar').
+          to_return(headers: { content_type: 'application/json' }, body: '{"FooFoo": "bar"}')
+      end
+
+      it 'should decode camel case keys to snake case' do
+        expect do |b|
+          command = this.send(:make_command, :get, 'foo/bar', { })
+          this.send(:execute_command, command, &b)
+        end.to yield_with_args(OpenStruct.new('foo_foo' => 'bar'), nil)
+      end
+    end
   end
 end
