@@ -32,25 +32,20 @@ module Naver
           def execute(client, &block)
             prepare!
 
-            logger.debug("Executing HTTP #{method} #{url}")
-            request_header = {}
-            apply_request_options(request_header)
+            _execute(client).tap do |result|
+              if block_given?
+                yield result, nil
+              end
+            end
 
-            http_res = client.request(method.to_s.upcase,
-                                      url.to_s,
-                                      query: nil,
-                                      body: body,
-                                      header: request_header,
-                                      follow_redirect: true)
-
-            logger.debug("Returned status(#{http_res.status}) and #{http_res.inspect}")
-            response = process_response(http_res.status.to_i, http_res.header, http_res.body)
-
-            logger.debug("Success - #{response}")
-            success(response, &block)
           rescue => e
-            logger.debug("Error - #{e.inspect}")
-            error(e, &block)
+            if block_given?
+              yield nil, e
+            else
+              raise e
+            end
+          ensure
+            release!
           end
 
           def prepare!
@@ -66,6 +61,31 @@ module Naver
             end
 
             @body = '' unless body
+          end
+
+          def release!
+          end
+
+          def _execute(client)
+            logger.debug("Executing HTTP #{method} #{url}")
+            request_header = {}
+            apply_request_options(request_header)
+
+            http_res = client.request(method.to_s.upcase,
+                                      url.to_s,
+                                      query: nil,
+                                      body: body,
+                                      header: request_header,
+                                      follow_redirect: true)
+
+            logger.debug("Returned status(#{http_res.status}) and #{http_res.inspect}")
+            response = process_response(http_res.status.to_i, http_res.header, http_res.body)
+
+            logger.debug("Success - #{response}")
+            success(response)
+          rescue => e
+            logger.debug("Error - #{e.inspect}")
+            error(e)
           end
 
           def process_response(status, header, body)

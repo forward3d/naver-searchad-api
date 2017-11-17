@@ -1,4 +1,5 @@
 require_relative '../core/base_service'
+require 'addressable/uri'
 
 module Naver
   module Searchad
@@ -8,6 +9,15 @@ module Naver
 
           def initialize
             super('https://api.naver.com/', '')
+          end
+
+          def download_report(download_url, file_path, options: {}, &block)
+            uri = Addressable::URI.parse(download_url)
+
+            command = make_download_command(:get, uri.path, options)
+            command.query['authtoken'] = uri.query_values['authtoken']
+            command.download_dest = file_path
+            execute_command(command, &block)
           end
 
           def get_stat_report(report_job_id, options: {}, &block)
@@ -37,7 +47,7 @@ module Naver
 
           def delete_stat_report(report_job_id, options: {}, &block)
             command = make_command(:delete, '/stat-reports/{report_job_id}', options)
-            command.query['report_job_id'] = report_job_id
+            command.params['report_job_id'] = report_job_id
             execute_command(command, &block)
           end
         end
