@@ -4,6 +4,7 @@ require 'httpclient'
 require_relative '../options'
 require_relative '../version'
 require_relative 'api_command'
+require_relative 'download_command'
 require_relative 'logging'
 
 module Naver
@@ -43,6 +44,14 @@ module Naver
             template = Addressable::Template.new(url + base_path + path)
             command = ApiCommand.new(method, template)
             command.decode_snake_case = options.fetch(:decode_snake_case, true) if options
+            command.options = request_options.merge(options)
+            apply_command_defaults(command)
+            command
+          end
+
+          def make_download_command(method, path, options = {})
+            template = Addressable::Template.new(url + base_path + path)
+            command = DownloadCommand.new(method, template)
             command.options = request_options.merge(options)
             apply_command_defaults(command)
             command
