@@ -6,7 +6,7 @@ module Naver
     module Api
       module Core
         class DownloadCommand < ApiCommand
-          OK_STATUS = [200, 201, 206]
+          OK_STATUSES = [200, 201, 206]
 
           attr_accessor :download_dest
 
@@ -40,7 +40,7 @@ module Naver
                                   header: request_header,
                                   follow_redirect: true) do |res, chunk|
               status = res.http_header.status_code.to_i
-              next unless OK_STATUS.include?(status)
+              next unless OK_STATUSES.include?(status)
 
               download_offset ||= (status == 206 ? @offset : 0)
               download_offset += chunk.bytesize
@@ -65,11 +65,11 @@ module Naver
               result = @download_io
             end
             check_status(http_res.status.to_i, http_res.header, http_res.body)
-            logger.debug("DownloadbleCommand: Success")
+            logger.debug("DownloadCommand: Success")
             success(result)
           rescue => e
             @download_io.flush
-            logger.debug("DownloadbleCommand: Error - #{e.inspect}")
+            logger.debug("DownloadCommand: Error - #{e.inspect}")
             error(e)
           end
         end
