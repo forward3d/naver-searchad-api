@@ -14,8 +14,8 @@ module Naver
         class BaseService
           include Logging
 
-          attr_reader :request_options
-          attr_reader :client_options
+          attr_accessor :request_options
+          attr_accessor :client_options
           attr_reader :url
           attr_reader :base_path
 
