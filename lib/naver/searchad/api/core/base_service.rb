@@ -4,7 +4,7 @@ require 'httpclient'
 require_relative '../options'
 require_relative '../version'
 require_relative 'api_command'
-require_relative 'download'
+require_relative 'download_command'
 require_relative 'logging'
 
 module Naver
