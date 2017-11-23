@@ -1,3 +1,6 @@
+require 'base64'
+require 'openssl'
+
 module Naver
   module Searchad
     module Api

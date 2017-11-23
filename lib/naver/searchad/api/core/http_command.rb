@@ -1,5 +1,6 @@
 require 'addressable/uri'
 require 'addressable/template'
+require 'json'
 require_relative '../errors'
 require_relative '../options'
 require_relative 'logging'
