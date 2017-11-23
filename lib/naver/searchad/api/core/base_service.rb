@@ -1,6 +1,7 @@
 require 'addressable/uri'
 require 'addressable/template'
 require 'httpclient'
+require 'json'
 require_relative '../options'
 require_relative '../version'
 require_relative 'api_command'
