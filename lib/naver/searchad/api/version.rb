@@ -1,7 +1,7 @@
 module Naver
   module Searchad
     module Api
-      VERSION = '0.0.8'
+      VERSION = '1.0.0'
 
       OS_VERSION = begin
         if RUBY_PLATFORM =~ /mswin|win32|mingw|bccwin|cygwin/

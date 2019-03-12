@@ -87,6 +87,8 @@ module Naver
               client.follow_redirect_count = 5
               client.default_header = { 'User-Agent' => user_agent }
               client.debug_dev = logger if client_options.log_http_requests
+              # Honor openssl configuration
+              client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_PEER
             end
           end
 
