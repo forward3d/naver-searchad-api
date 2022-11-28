@@ -8,7 +8,7 @@ module Naver
         class Service < Naver::Searchad::Api::Core::BaseService
 
           def initialize
-            super('https://api.naver.com/', '')
+            super('https://api.searchad.naver.com/', '')
           end
 
           def download_report(download_url, file_path, options: {}, &block)

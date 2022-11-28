@@ -11,7 +11,7 @@ describe Bizmoney::Service do
   describe '#get_bizmoney' do
     context 'when requesting bizmoney' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/billing/bizmoney').
+        stub_request(:get, 'https://api.searchad.naver.com/billing/bizmoney').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -45,7 +45,7 @@ describe Bizmoney::Service do
         let(:start_date) { Date.parse('2019-03-01') }
 
         before(:each) do
-          stub_request(:get, "https://api.naver.com/billing/bizmoney/cost?searchEndDt=20190302&searchStartDt=20190301").
+          stub_request(:get, "https://api.searchad.naver.com/billing/bizmoney/cost?searchEndDt=20190302&searchStartDt=20190301").
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -105,7 +105,7 @@ describe Bizmoney::Service do
         let(:start_date) { Date.parse('2019-03-01') }
 
         before(:each) do
-          stub_request(:get, "https://api.naver.com/billing/bizmoney/histories/charge?searchEndDt=20190302&searchStartDt=20190301").
+          stub_request(:get, "https://api.searchad.naver.com/billing/bizmoney/histories/charge?searchEndDt=20190302&searchStartDt=20190301").
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -157,7 +157,7 @@ describe Bizmoney::Service do
         let(:start_date) { Date.parse('2019-03-01') }
 
         before(:each) do
-          stub_request(:get, "https://api.naver.com/billing/bizmoney/histories/exhaust?searchEndDt=20190302&searchStartDt=20190301").
+          stub_request(:get, "https://api.searchad.naver.com/billing/bizmoney/histories/exhaust?searchEndDt=20190302&searchStartDt=20190301").
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -217,7 +217,7 @@ describe Bizmoney::Service do
         let(:start_date) { Date.parse('2019-03-01') }
 
         before(:each) do
-          stub_request(:get, "https://api.naver.com/billing/bizmoney/histories/period?searchEndDt=20190302&searchStartDt=20190301").
+          stub_request(:get, "https://api.searchad.naver.com/billing/bizmoney/histories/period?searchEndDt=20190302&searchStartDt=20190301").
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},

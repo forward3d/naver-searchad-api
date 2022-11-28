@@ -7,7 +7,7 @@ module Naver
         class Service < Naver::Searchad::Api::Core::BaseService
 
           def initialize
-            super('https://api.naver.com/', 'billing/')
+            super('https://api.searchad.naver.com/', 'billing/')
           end
 
           def get_bizmoney(options: nil, &block)

@@ -12,7 +12,7 @@ describe Adgroup::Service do
     context 'when requesting more than one' do
       include_context 'request is for adgroup list response'
 
-      let(:url) { 'https://api.naver.com/ncc/adgroups' }
+      let(:url) { 'https://api.searchad.naver.com/ncc/adgroups' }
 
       it 'should return an array of relevant adgroup items' do
         expect { |b| this.list_adgroups(&b) }.
@@ -98,7 +98,7 @@ describe Adgroup::Service do
     context 'when requesting more than one' do
       include_context 'request is for adgroup list response'
 
-      let(:url) { "https://api.naver.com/ncc/adgroups?ids=#{adgroup_ids.join(',')}" }
+      let(:url) { "https://api.searchad.naver.com/ncc/adgroups?ids=#{adgroup_ids.join(',')}" }
       let(:adgroup_ids) { %w[grp-a001-01-000000003853231 grp-a001-01-000000003853237] }
 
       it 'should return an array of relevant adgroup items' do
@@ -182,7 +182,7 @@ describe Adgroup::Service do
 
     context 'when requesting none-existing one' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups?ids=none-existing').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/adgroups?ids=none-existing').
           to_return(
             status: 404,
             body: <<-JSON
@@ -205,7 +205,7 @@ JSON
     context 'when all ok' do
       include_context 'request is for adgroup list response'
 
-      let(:url) { 'https://api.naver.com/ncc/adgroups?nccCampaignId=cmp-a001-01-000000000652963' }
+      let(:url) { 'https://api.searchad.naver.com/ncc/adgroups?nccCampaignId=cmp-a001-01-000000000652963' }
       let(:campaign_id) { 'cmp-a001-01-000000000652963' }
 
       it 'should return an array of relevant adgroup items' do
@@ -289,7 +289,7 @@ JSON
 
     context 'when requesting none existing id' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups?nccCampaignId=none-existing').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/adgroups?nccCampaignId=none-existing').
           to_return(
             status: 404,
             body: <<-JSON
@@ -312,7 +312,7 @@ JSON
     context 'when all ok' do
       include_context 'request is for adgroup list response'
 
-      let(:url) { 'https://api.naver.com/ncc/adgroups?nccLabelId=working_label_id' }
+      let(:url) { 'https://api.searchad.naver.com/ncc/adgroups?nccLabelId=working_label_id' }
       let(:label_id) { 'working_label_id' }
 
       it 'should return an array of relevant adgroup items' do
@@ -396,7 +396,7 @@ JSON
 
     context 'when requesting none existing id' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups?nccLabelId=none-existing').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/adgroups?nccLabelId=none-existing').
           to_return(
             status: 404,
             body: <<-JSON
@@ -419,7 +419,7 @@ JSON
     context 'when all ok' do
       include_context 'request is for a single adgroup response'
 
-      let(:url) { 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003853231' }
+      let(:url) { 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003853231' }
       let(:adgroup_id) { 'grp-a001-01-000000003853231' }
 
       it 'should return relevant adgroup item' do
@@ -518,7 +518,7 @@ JSON
 
     context 'when requesting none existing id' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/adgroups/none-existing').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/adgroups/none-existing').
           to_return(
             status: 404,
             body: <<-JSON
@@ -548,7 +548,7 @@ JSON
         }
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/adgroups').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/adgroups').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -750,7 +750,7 @@ JSON
         }
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/adgroups').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/adgroups').
           to_return(
             status: 400,
             body: <<-JSON
@@ -797,7 +797,7 @@ JSON
         }
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/adgroups').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/adgroups').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1000,7 +1000,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=userLock').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=userLock').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1039,7 +1039,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=bidAmt').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=bidAmt').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1079,7 +1079,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=budget').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=budget').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1120,7 +1120,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=useKeywordPlus').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=useKeywordPlus').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1161,7 +1161,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=networkBidWeight').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=networkBidWeight').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1223,7 +1223,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetLocation').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetLocation').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1285,7 +1285,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetTime').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetTime').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1364,7 +1364,7 @@ JSON
         }
 
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetMedia').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468?fields=targetMedia').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1494,7 +1494,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003865468').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003865468').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -1717,7 +1717,7 @@ JSON
       let(:adgroup_id) { 'grp-a001-01-000000003853231' }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/adgroups/grp-a001-01-000000003853231').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/adgroups/grp-a001-01-000000003853231').
           to_return(status: 204)
       end
 
@@ -1730,7 +1730,7 @@ JSON
       let(:adgroup_id) { 'none-existing' }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/adgroups/none-existing').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/adgroups/none-existing').
           to_return(
             status: 404,
             body: <<-JSON
