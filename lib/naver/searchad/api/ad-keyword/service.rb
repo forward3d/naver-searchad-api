@@ -7,7 +7,7 @@ module Naver
         class Service < Naver::Searchad::Api::Core::BaseService
 
           def initialize
-            super('https://api.naver.com/', 'ncc/')
+            super('https://api.searchad.naver.com/', 'ncc/')
           end
 
           def list_ad_keywords_by_ids(ad_keyword_ids, options: nil, &block)

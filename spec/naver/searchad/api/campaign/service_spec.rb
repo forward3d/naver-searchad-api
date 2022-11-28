@@ -20,7 +20,7 @@ describe Campaign::Service do
 
     context 'when all ok' do
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
             to_return(
               status: 200,
@@ -77,7 +77,7 @@ JSON
     context 'when no authorization is given' do
       before(:each) do
         this.authorization = nil
-        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
             to_return(
               status: 403,
@@ -101,7 +101,7 @@ JSON
 
     context 'when invalid api key is given' do
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
             to_return(
               status: 403,
@@ -125,7 +125,7 @@ JSON
 
     context 'when invalid api secret is given' do
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
             to_return(
               status: 403,
@@ -149,7 +149,7 @@ JSON
 
     context 'when invalid client id in authorization is given' do
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"test-04\",\"customerId\":\"113131\"}").
             to_return(
               status: 403,
@@ -175,7 +175,7 @@ JSON
     context 'when creating a campaign with existing name' do
       before(:each) do
         campaign['name'] = 'existing-campaign'
-        stub_request(:post, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/campaigns').
           with(body: "{\"campaignTp\":\"WEB_SITE\",\"name\":\"existing-campaign\",\"customerId\":\"113131\"}").
             to_return(
               status: 400,
@@ -207,7 +207,7 @@ JSON
   describe '#list_campaigns_by_ids' do
     context 'when requesting multiple ids' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/campaigns/?ids=cmp-a001-01-000000000652963,cmp-a001-01-000000000653273').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/campaigns/?ids=cmp-a001-01-000000000652963,cmp-a001-01-000000000653273').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -304,7 +304,7 @@ JSON
 
     context 'when requesting none existing id' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/campaigns/?ids=none-existing').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/campaigns/?ids=none-existing').
           to_return(
             status: 404,
             body: <<-JSON
@@ -326,7 +326,7 @@ JSON
   describe '#list_campaigns' do
     context 'when requesting camapgins' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/campaigns').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/campaigns').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -425,7 +425,7 @@ JSON
   describe '#get_campaign' do
     context 'when all ok' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000652963').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -481,7 +481,7 @@ JSON
 
     context 'when requesting none-existing campaign' do
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/campaigns/none-existing').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/campaigns/none-existing').
           to_return(
             status: 404,
             body: <<-JSON
@@ -511,7 +511,7 @@ JSON
         end
 
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=userLock').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=userLock').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -540,7 +540,7 @@ JSON
         end
 
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=budget').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=budget').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -572,7 +572,7 @@ JSON
         end
 
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=period').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=period').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -613,7 +613,7 @@ JSON
           }
         end
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000652963').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -680,7 +680,7 @@ JSON
       end
 
       before(:each) do
-        stub_request(:put, 'https://api.naver.com/ncc/campaigns/none-existing?fields=userLock').
+        stub_request(:put, 'https://api.searchad.naver.com/ncc/campaigns/none-existing?fields=userLock').
           to_return(
             status: 404,
             body: <<-JSON
@@ -708,7 +708,7 @@ JSON
       end
 
       before(:each) do
-        stub_request(:put, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=deliveryMethod').
+        stub_request(:put, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000652963?fields=deliveryMethod').
           to_return(
             status: 400,
             body: <<-JSON
@@ -733,7 +733,7 @@ JSON
       let(:campaign_id) { 'cmp-a001-01-000000000653279' }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/campaigns/cmp-a001-01-000000000653279').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/campaigns/cmp-a001-01-000000000653279').
           to_return(status: 204)
       end
 
@@ -747,7 +747,7 @@ JSON
       let(:campaign_id) { 'none-existing' }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/campaigns/none-existing').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/campaigns/none-existing').
           to_return(
             status: 404,
             body: <<-JSON

@@ -12,7 +12,7 @@ describe AdKeyword::Service do
     context 'when requesting more than one' do
       let(:ids) {['nkw-a001-01-000000723631063', 'nkw-a001-01-000000723631064']}
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/keywords?ids=nkw-a001-01-000000723631063,nkw-a001-01-000000723631064').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/keywords?ids=nkw-a001-01-000000723631063,nkw-a001-01-000000723631064').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -99,7 +99,7 @@ JSON
     context 'when all ok' do
       let(:adgroup_id) { 'grp-a001-01-000000003865468' }
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -186,7 +186,7 @@ JSON
     context 'when all ok' do
       let(:label_id) { 'label_id' }
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/keywords?nccLabelId=label_id').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/keywords?nccLabelId=label_id').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -273,7 +273,7 @@ JSON
     context 'when all ok' do
       let(:ad_keyword_id) { 'nkw-a001-01-000000723631063' }
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000723631063').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000723631063').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -328,7 +328,7 @@ JSON
     context 'when creating an ad keyword with only required attribute' do
       let(:ad_keyword) { { 'keyword' => 'test-keyword-02' } }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -404,7 +404,7 @@ JSON
         }
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -484,7 +484,7 @@ JSON
         ]
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -568,7 +568,7 @@ JSON
       let(:ad_keyword) { { 'keyword' => 'existing-keyword' } }
 
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/keywords?nccAdgroupId=grp-a001-01-000000003865468').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -611,7 +611,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=userLock').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=userLock').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -644,7 +644,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=bidAmt').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=bidAmt').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -685,7 +685,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=links').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=links').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -726,7 +726,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=inspect').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=inspect').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -768,7 +768,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000725744770?fields=').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -834,7 +834,7 @@ JSON
         ]
       }
       before(:each) do
-        stub_request(:put, 'https://api.naver.com/ncc/keywords?fields=userLock').
+        stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords?fields=userLock').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -904,7 +904,7 @@ JSON
         ]
       }
       before(:each) do
-        stub_request(:put, 'https://api.naver.com/ncc/keywords?fields=').
+        stub_request(:put, 'https://api.searchad.naver.com/ncc/keywords?fields=').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -980,7 +980,7 @@ JSON
       let(:ad_keyword_id) { 'nkw-a001-01-000000723631063' }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/keywords/nkw-a001-01-000000723631063').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/keywords/nkw-a001-01-000000723631063').
           to_return(status: 204)
       end
 
@@ -995,7 +995,7 @@ JSON
       let(:ad_keyword_ids) { ['nkw-a001-01-000000725744769', 'nkw-a001-01-000000725744770'] }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/keywords?ids=nkw-a001-01-000000725744769,nkw-a001-01-000000725744770').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/keywords?ids=nkw-a001-01-000000725744769,nkw-a001-01-000000725744770').
           to_return(status: 204)
       end
 

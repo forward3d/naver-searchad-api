@@ -7,7 +7,7 @@ module Naver
         class Service < Naver::Searchad::Api::Core::BaseService
 
           def initialize
-            super('https://api.naver.com/', '')
+            super('https://api.searchad.naver.com/', '')
           end
 
           def list_stats(options: nil, &block)

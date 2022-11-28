@@ -12,7 +12,7 @@ describe Ad::Service do
     context 'when requesting some' do
       let(:ad_ids) { ['nad-a001-01-000000015970482', 'nad-a001-01-000000015970494'] }
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/ads?ids=nad-a001-01-000000015970482,nad-a001-01-000000015970494').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/ads?ids=nad-a001-01-000000015970482,nad-a001-01-000000015970494').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -150,7 +150,7 @@ JSON
     context 'when all ok' do
       let(:adgroup_id) { 'grp-a001-01-000000003865468' }
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/ads?nccAdgroupId=grp-a001-01-000000003865468').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/ads?nccAdgroupId=grp-a001-01-000000003865468').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -288,7 +288,7 @@ JSON
     context 'when all ok' do
       let(:ad_id) { 'nad-a001-01-000000015970482' }
       before(:each) do
-        stub_request(:get, 'https://api.naver.com/ncc/ads/nad-a001-01-000000015970482').
+        stub_request(:get, 'https://api.searchad.naver.com/ncc/ads/nad-a001-01-000000015970482').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -390,7 +390,7 @@ JSON
         }
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/ads').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/ads').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -483,7 +483,7 @@ JSON
         }
       }
       before(:each) do
-        stub_request(:post, 'https://api.naver.com/ncc/ads').
+        stub_request(:post, 'https://api.searchad.naver.com/ncc/ads').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -573,7 +573,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/ads/nad-a001-01-000000015971701?fields=userLock').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/ads/nad-a001-01-000000015971701?fields=userLock').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -602,7 +602,7 @@ JSON
           }
         }
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/ads/nad-a001-01-000000015971701?fields=inspect').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/ads/nad-a001-01-000000015971701?fields=inspect').
             to_return(
               status: 200,
               headers: {'Content-Type' => 'application/json;charset=UTF-8'},
@@ -633,7 +633,7 @@ JSON
         }
 
         before(:each) do
-          stub_request(:put, 'https://api.naver.com/ncc/ads/nad-a001-01-000000015971701?fields=').
+          stub_request(:put, 'https://api.searchad.naver.com/ncc/ads/nad-a001-01-000000015971701?fields=').
             to_return(
               status: 400,
               body: <<-JSON
@@ -664,7 +664,7 @@ JSON
       let(:ad_id) { 'nad-a001-01-000000015971701' }
 
       before(:each) do
-        stub_request(:delete, 'https://api.naver.com/ncc/ads/nad-a001-01-000000015971701').
+        stub_request(:delete, 'https://api.searchad.naver.com/ncc/ads/nad-a001-01-000000015971701').
           to_return(status: 204)
       end
 
@@ -680,7 +680,7 @@ JSON
       let(:target_ad_group_id) { 'grp-a001-01-000000003864948' }
 
       before(:each) do
-        stub_request(:put, 'https://api.naver.com/ncc/ads?ids=nad-a001-01-000000015970482,nad-a001-01-000000015970494&targetAdgroupId=grp-a001-01-000000003864948&userLock=true').
+        stub_request(:put, 'https://api.searchad.naver.com/ncc/ads?ids=nad-a001-01-000000015970482,nad-a001-01-000000015970494&targetAdgroupId=grp-a001-01-000000003864948&userLock=true').
           to_return(
             status: 200,
             headers: {'Content-Type' => 'application/json;charset=UTF-8'},
