@@ -7,12 +7,14 @@ require_relative '../version'
 require_relative 'api_command'
 require_relative 'download_command'
 require_relative 'logging'
+require_relative 'helpers'
 
 module Naver
   module Searchad
     module Api
       module Core
         class BaseService
+          include Helpers
           include Logging
 
           attr_accessor :request_options
@@ -42,7 +44,7 @@ module Naver
           protected
 
           def make_command(method, path, options = {})
-            template = Addressable::Template.new(url + base_path + path)
+            template = new_template(url + base_path + path)
             command = ApiCommand.new(method, template)
             command.decode_snake_case = options.fetch(:decode_snake_case, true) if options
             command.options = request_options.merge(options)
@@ -51,7 +53,7 @@ module Naver
           end
 
           def make_download_command(method, path, options = {})
-            template = Addressable::Template.new(url + base_path + path)
+            template = new_template(url + base_path + path)
             command = DownloadCommand.new(method, template)
             command.options = request_options.merge(options)
             apply_command_defaults(command)

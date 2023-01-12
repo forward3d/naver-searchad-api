@@ -4,12 +4,14 @@ require 'json'
 require_relative '../errors'
 require_relative '../options'
 require_relative 'logging'
+require_relative 'helpers'
 
 module Naver
   module Searchad
     module Api
       module Core
         class HttpCommand
+          include Helpers
           include Logging
 
           attr_reader :url
@@ -22,7 +24,7 @@ module Naver
 
           def initialize(method, url, body: nil)
             @options = RequestOptions.default.dup
-            @url = url.is_a?(String) ? Addressable::Template.new(url) : url
+            @url = url.is_a?(String) ? new_template(url) : url
             @method = method
             @header = {}
             @body = body
