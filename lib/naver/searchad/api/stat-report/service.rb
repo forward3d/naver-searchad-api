@@ -16,6 +16,7 @@ module Naver
 
             command = make_download_command(:get, uri.path, options)
             command.query['authtoken'] = uri.query_values['authtoken']
+            command.query['fileVersion'] = uri.query_values['fileVersion'] || 'v2'
             command.download_dest = file_path
             execute_command(command, &block)
           end
