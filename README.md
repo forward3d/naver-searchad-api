@@ -17,11 +17,38 @@ gem 'naver-searchad-api'
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install naver-searchad-api
+```
+$ gem install naver-searchad-api
+```
+
+## Publishing a new release
+
+Guide for maintaining and releasing this gem.
+
+RubyGems.org credentials are stored in 1Password under **"Rubygems"**.
+
+Before releasing a new version, create and push the corresponding tag `v<version>`.
+
+**Release steps:**
+
+1. Ensure the version in `lib/naver/searchad/api/version.rb` is already updated to the correct release number.
+2. Build the gem:
+
+   ```sh
+   gem build naver-searchad-api.gemspec
+   ```
+3. Push the gem:
+
+   ```sh
+   gem push naver-searchad-api-<version>.gem
+   ```
+4. Verify the new version on RubyGems.org: https://rubygems.org/gems/naver-searchad-api
 
 ## Compatibility
 
