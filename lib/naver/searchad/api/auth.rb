@@ -5,7 +5,7 @@ module Naver
   module Searchad
     module Api
       module Auth
-        class CustomerAcccountCredentials
+        class CustomerAccountCredentials
           TIMESTAMP_HEADER = 'X-Timestamp'.freeze
           API_KEY_HEADER = 'X-API-KEY'.freeze
           CUSTOMER_HEADER = 'X-Customer'.freeze
@@ -43,13 +43,22 @@ module Naver
           end
         end
 
+        def self.const_missing(name)
+          if name == :CustomerAcccountCredentials
+            warn "DEPRECATION WARNING: `CustomerAcccountCredentials` is deprecated. Use `CustomerAccountCredentials` instead."
+            CustomerAccountCredentials
+          else
+            super
+          end
+        end
+
         class DefaultCredentials
           API_KEY_ENV_VAR = 'NAVER_API_KEY'.freeze
           API_SECRET_ENV_VAR = 'NAVER_API_SECRET'.freeze
           CUSTOMER_ID_ENV_VAR = 'NAVER_API_CLIENT_ID'.freeze
 
           def self.from_env
-            CustomerAcccountCredentials.new(
+            CustomerAccountCredentials.new(
               ENV[API_KEY_ENV_VAR],
               ENV[API_SECRET_ENV_VAR],
               ENV[CUSTOMER_ID_ENV_VAR]

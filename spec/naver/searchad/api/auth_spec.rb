@@ -2,7 +2,7 @@ require 'spec_helper'
 
 include Naver::Searchad::Api::Auth
 
-describe CustomerAcccountCredentials do
+describe CustomerAccountCredentials do
   subject(:this) { described_class.new(key, secret, custom_id) }
   let(:key) { 'api_key' }
   let(:secret) { 'api_secret' }
@@ -61,9 +61,9 @@ describe DefaultCredentials do
         ENV['NAVER_API_CLIENT_ID'] = @orginal_client_id
       end
 
-      it 'should return CustomerAcccountCredentials object with data from ENV' do
+      it 'should return CustomerAccountCredentials object with data from ENV' do
         credential = described_class.from_env
-        expect(credential).to be_a_kind_of(CustomerAcccountCredentials)
+        expect(credential).to be_a_kind_of(CustomerAccountCredentials)
         expect(credential.api_key).to eq('key')
         expect(credential.api_secret).to eq('secret')
         expect(credential.customer_id).to eq('100993')
